@@ -1,6 +1,5 @@
 .App {
-  padding: 30px;
-  display: flex;
+
 }
 
 .App > div {
@@ -8,7 +7,7 @@
 }
 
 .Todolist {
-  display: flex;
-  flex-direction: column;
-
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*justify-content: space-between;*/
 }

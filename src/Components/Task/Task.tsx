@@ -1,9 +1,10 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {Button} from "../Button/Button";
 import {deleteTaskTC, updateTaskTC} from "../../State/tasks-reducer";
 import {TaskStatuses, taskType} from "../../api/task-api";
 import {useAppDispatch} from "../../Store/Store";
+import {Delete} from "@mui/icons-material";
+import {Checkbox, IconButton} from "@mui/material";
 
 type taskPropsType = {
     task:taskType
@@ -33,15 +34,11 @@ export const Task:React.FC<taskPropsType> = memo(({task, todoListId}) => {
 
 
     return (
-        <li>
-            <input
-                type="checkbox"
-                checked={task.status === TaskStatuses.Completed}
-                onChange={changeCheckBox}
-            />
+        <div>
+            <Checkbox checked={task.status === TaskStatuses.Completed} onChange={changeCheckBox} size={"small"}/>
             <EditableSpan title={task.title} callBack={(title) => changeTaskTitle(title)}/>
-            <Button title={"x"} callback={removeTask}/>
-        </li>
+            <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={removeTask}><Delete/></IconButton>
+        </div>
     );
 })
 

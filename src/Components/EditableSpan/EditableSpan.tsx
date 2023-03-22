@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
 type EditableSpanType = {
     title:string
@@ -34,6 +34,7 @@ export const EditableSpan = React.memo((props:EditableSpanType) => {
 
     return (
         <>
+            {/*<TextField size={"small"}/>*/}
             {editMode
                 ? <input autoFocus value={title} onChange={onChangeHandler} onBlur={onBlurHandler} onKeyUp={onKeyUpHandler}/>
                 : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
