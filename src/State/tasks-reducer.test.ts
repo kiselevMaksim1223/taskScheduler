@@ -1,8 +1,16 @@
-import {tasksType} from "../App";
+
 import {v1} from "uuid";
-import {addTaskAT, deleteTaskAT, tasksReducer, updateTaskAT} from "./tasks-reducer";
-import {deleteTodolistAC} from "./todolists-reducer";
+import {
+    addTaskAT,
+    changeTaskEntityStatusAC,
+    changeTaskEntityStatusAT,
+    deleteTaskAT,
+    tasksReducer,
+    updateTaskAT
+} from "./tasks-reducer";
+import {changeEntityStatusAC, deleteTodolistAC} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/task-api";
+import {tasksType} from "../AppWithRedux";
 
 let initialState:tasksType
 let todoListId_1 = v1()
@@ -11,15 +19,15 @@ beforeEach(() => {
     initialState = {
         [todoListId_1]: [
 
-            {id: "1", title: "Shoes", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low },
-            {id: v1(), title: "T-shirt", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
-            {id: v1(), title: "Skirt", status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
-            {id: v1(), title: "Panties", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low}
+            {id: "1", title: "Shoes", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low , taskEntityStatus:"idle"},
+            {id: v1(), title: "T-shirt", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low, taskEntityStatus:"idle"},
+            {id: v1(), title: "Skirt", status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low,taskEntityStatus:"idle"},
+            {id: v1(), title: "Panties", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low, taskEntityStatus:"idle"}
         ],
         [todoListId_2]: [
-            {id: v1(), title: "Shoes", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
-            {id: v1(), title: "red bull", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
-            {id: "3", title: "some shit", status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
+            {id: v1(), title: "Shoes", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low, taskEntityStatus:"idle"},
+            {id: v1(), title: "red bull", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low, taskEntityStatus:"idle"},
+            {id: "3", title: "some shit", status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low, taskEntityStatus:"idle"},
         ],
     }
 })
@@ -92,4 +100,14 @@ test('property with todolistId should be deleted', () => {
 
     expect(keys.length).toBe(1)
     expect(endState['todolistId2']).not.toBeDefined()
+})
+
+test('task entity status should changed', () => {
+
+
+    const action:changeTaskEntityStatusAT = changeTaskEntityStatusAC("todolistId2", "3", "loading")
+
+    const endState = tasksReducer(initialState, action)
+
+    expect(endState['todolistId2'][2].taskEntityStatus).toBe("loading")
 })

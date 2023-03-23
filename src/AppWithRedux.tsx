@@ -2,30 +2,38 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {TodoList} from "./Components/ToDoList/TodoList";
 import {AddItem} from "./Components/AddTodolist/AddItem";
-import {useSelector} from "react-redux";
-import {AppRootState, useAppDispatch, useAppSelector} from "./Store/Store";
+import {useAppDispatch, useAppSelector} from "./Store/Store";
 import {
     addTodoListTC,
     changeTodolistFilterAC,
     changeTodoListTitleTC,
-    deleteTodoListTC, filterValueType, getTodoListTC, todolistDomainType
+    deleteTodoListTC,
+    filterValueType,
+    getTodoListTC,
+    todolistDomainType
 } from "./State/todolists-reducer";
 import {taskType} from "./api/task-api";
-import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import {Container, Grid, LinearProgress, Paper} from "@mui/material";
+import {HeaderMui} from "./Components/Header/HeaderMUI";
+import {ErrorSnackbar} from "./Components/ErrorSnackBar/ErrorSnackBar";
+import {appStatusType} from "./State/app-reducer";
+import {taskDomainType} from "./State/tasks-reducer";
 
 
 export type tasksType = {
-    [key: string]: taskType[]
+    [key: string]: taskDomainType[]
 }
 
 const AppWithRedux = React.memo(() => {
 
     console.log("app")
 
-    const todoLists = useSelector<AppRootState, todolistDomainType[]>(state => state.todoLists)
+    const todoLists = useAppSelector<todolistDomainType[]>(state => state.todoLists)
     const tasks = useAppSelector<tasksType>(state => state.tasks) // кастомный хук
+    const requestStatus = useAppSelector<appStatusType>(state => state.app.status)
+
     const dispatch = useAppDispatch(); // вставили кастомный хук из store
+
 
     const changeTodoListFilter = useCallback((filter: filterValueType, todoListId: string) => {
         dispatch(changeTodolistFilterAC(todoListId, filter))
@@ -53,47 +61,38 @@ const AppWithRedux = React.memo(() => {
 
     return (
         <div className="App">
-            <AppBar position="static" color="primary">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{mr: 2}}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        Task Scheduler
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
+            <HeaderMui/>
+
+                {requestStatus === "loading" && <LinearProgress/>}
+
             <Container fixed>
-                <Grid container sx={{padding: "20px 0"}}>
+                <Grid container sx={{padding: "10px 0"}}>
                     <AddItem callBack={addTodolist}/>
                 </Grid>
-                <Grid container spacing={3}>
+                <Grid container gap={2}>
                     {todoLists.map(t => {
                         return (
                             <Grid item>
-                                <TodoList
-                                    key={t.id}
-                                    id={t.id}
-                                    title={t.title}
-                                    tasks={tasks[t.id]}
-                                    filter={t.filter}
+                                <Paper sx={{padding: "15px"}}>
+                                    <TodoList
+                                        key={t.id}
+                                        id={t.id}
+                                        title={t.title}
+                                        tasks={tasks[t.id]}
+                                        filter={t.filter}
+                                        entityStatus={t.entityStatus}
 
-                                    changeTodoListFilter={changeTodoListFilter}
-                                    deleteTodolist={deleteTodolist}
-                                    changeTodoListStatus={changeTodoListTitle}
-                                />
+                                        changeTodoListFilter={changeTodoListFilter}
+                                        deleteTodolist={deleteTodolist}
+                                        changeTodoListStatus={changeTodoListTitle}
+                                    />
+                                </Paper>
                             </Grid>
                         )
                     })}
                 </Grid>
             </Container>
+            <ErrorSnackbar/> {/*всплывающая ошибка */}
         </div>
     );
 })

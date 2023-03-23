@@ -7,6 +7,7 @@ import {AppRootState} from "../Store/Store";
 import {TodoList} from "../Components/ToDoList/TodoList";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses, taskType} from "../api/task-api";
+import {taskDomainType} from "../State/tasks-reducer";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -23,7 +24,7 @@ export default {
 
 
 const Tasks = () => {
-  return useSelector<AppRootState, taskType[]>(state => state.tasks["todolistId1"])
+  return useSelector<AppRootState, taskDomainType[]>(state => state.tasks["todolistId1"])
 }
 
 
@@ -39,10 +40,10 @@ TodoListExample.args = {
   title:"123",
   filter:"all",
   tasks:[
-    {id: v1(), title: 'HTML&CSS', status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
-    {id: v1(), title: 'JS', status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
-    {id: v1(), title: 'TS', status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
-    {id: v1(), title: 'CSS', status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low},
+    {id: v1(), title: 'HTML&CSS', status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low, taskEntityStatus:"idle"},
+    {id: v1(), title: 'JS', status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low,taskEntityStatus:"idle"},
+    {id: v1(), title: 'TS', status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low,taskEntityStatus:"idle"},
+    {id: v1(), title: 'CSS', status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low,taskEntityStatus:"idle"},
   ],
   changeTodoListStatus:action("todolist status changed"),
   changeTodoListFilter:action("filter changed"),

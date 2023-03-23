@@ -1,25 +1,27 @@
-
 import {v1} from "uuid";
 import {
-    TodoListActionType,
     addTodolistAT,
     changeTodolistFilterAT,
     changeTodolistTitleAT,
     deleteTodolistAT, todolistDomainType,
-    todolistsReducer, filterValueType
+    todolistsReducer, filterValueType, changeEntityStatusAT
 } from "./todolists-reducer";
 import {todolistType} from "../api/todoist-api";
+import {appStatusType} from "./app-reducer";
 
+let todoListId_1 = v1()
+let todoListId_2 = v1()
+let initialState:todolistDomainType[]
+
+beforeEach(() => {
+    initialState=[
+        {id: todoListId_1, title: "what to learn", filter: "all",addedDate: "1234", order: 1, entityStatus:"idle"},
+        {id: todoListId_2, title: "what to buy", filter: "all",addedDate: "122", order: 1, entityStatus:"idle"},
+    ]
+})
 
 test("new todolist should be added", () => {
 
-    let todoListId_1 = v1()
-    let todoListId_2 = v1()
-
-    const initialState:todolistDomainType[] = [
-        {id: todoListId_1, title: "what to learn", filter: "all",addedDate: "1234", order: 1},
-        {id: todoListId_2, title: "what to buy", filter: "all",addedDate: "122", order: 1},
-    ]
     const newTitle = "qwerty"
     const todoListState: todolistType = {
         id: v1(),
@@ -37,15 +39,6 @@ test("new todolist should be added", () => {
 })
 
 test("todolist should be remove", () => {
-
-    let todoListId_1 = v1()
-    let todoListId_2 = v1()
-
-    const initialState:todolistDomainType[] = [
-        {id: todoListId_1, title: "what to learn", filter: "all",addedDate: "1234", order: 1},
-        {id: todoListId_2, title: "what to buy", filter: "all",addedDate: "122", order: 1},
-    ]
-
     let action:deleteTodolistAT = {type:"DELETE-TODOLIST", todoListId: todoListId_2}
 
     const endState = todolistsReducer(initialState, action)
@@ -55,15 +48,6 @@ test("todolist should be remove", () => {
 })
 
 test("todolist title should be changed", () => {
-
-    let todoListId_1 = v1()
-    let todoListId_2 = v1()
-
-    const initialState:todolistDomainType[] = [
-        {id: todoListId_1, title: "what to learn", filter: "all",addedDate: "1234", order: 1},
-        {id: todoListId_2, title: "what to buy", filter: "all",addedDate: "122", order: 1},
-    ]
-
     const newTitle = "new title"
 
     let action:changeTodolistTitleAT = {type:"CHANGE-TODOLIST-TITLE",todoListId:todoListId_2, title: newTitle}
@@ -77,14 +61,6 @@ test("todolist title should be changed", () => {
 
 test("todolist filter should be changed", () => {
 
-    let todoListId_1 = v1()
-    let todoListId_2 = v1()
-
-    const initialState:todolistDomainType[] = [
-        {id: todoListId_1, title: "what to learn", filter: "all",addedDate: "1234", order: 1},
-        {id: todoListId_2, title: "what to buy", filter: "all",addedDate: "122", order: 1},
-    ]
-
     const newFilter:filterValueType = "active"
 
     let action:changeTodolistFilterAT = {type:"CHANGE-TODOLIST-FILTER",todoListId:todoListId_2, filter: newFilter}
@@ -94,4 +70,16 @@ test("todolist filter should be changed", () => {
     expect(endState.length).toBe(2)
     expect(endState[0].filter).toBe("all")
     expect(endState[1].filter).toBe(newFilter)
+})
+
+test("todolist entity status should be changed", () => {
+
+    const newEntityStatus:appStatusType = "loading"
+
+    let action:changeEntityStatusAT = {type:"CHANGE-ENTITY-STATUS",todoListId:todoListId_2, entityStatus: newEntityStatus}
+
+    const endState = todolistsReducer(initialState, action)
+
+    expect(endState.length).toBe(2)
+    expect(endState[0].entityStatus).toBe(newEntityStatus)
 })

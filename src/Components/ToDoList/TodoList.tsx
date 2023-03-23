@@ -2,19 +2,21 @@ import React, {useCallback, useEffect} from "react";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {AddItem} from "../AddTodolist/AddItem";
 import {Task} from "../Task/Task";
-import {createTaskTC, getTasksTC} from "../../State/tasks-reducer";
-import {TaskStatuses, taskType} from "../../api/task-api";
+import {createTaskTC, getTasksTC, taskDomainType} from "../../State/tasks-reducer";
+import {TaskStatuses} from "../../api/task-api";
 import {filterValueType} from "../../State/todolists-reducer";
 import {useAppDispatch} from "../../Store/Store";
 import {Delete} from "@mui/icons-material";
 import {ButtonGroup, IconButton} from "@mui/material";
 import Button from "@mui/material/Button";
+import {appStatusType} from "../../State/app-reducer";
 
 type propsType = {
     id: string
     title: string
-    tasks: Array<taskType>
+    tasks: Array<taskDomainType>
     filter: filterValueType
+    entityStatus: appStatusType
 
     // removeTask: (taskId: string, todoListId: string) => void
     changeTodoListFilter: (value: filterValueType, todoListId: string) => void
@@ -70,7 +72,7 @@ export const TodoList = React.memo((props: propsType) => {
             return props.tasks.filter(t => t.status === TaskStatuses.Completed)
         } else return props.tasks
     }
-    const filteredTasks: Array<taskType> = changeFilter()
+    const filteredTasks: Array<taskDomainType> = changeFilter()
 
     const addTask = useCallback((title: string) => {
         dispatch(createTaskTC(props.id, title))
@@ -81,16 +83,15 @@ export const TodoList = React.memo((props: propsType) => {
         <div className={"Todolist"}>
             <h3>
                 <EditableSpan title={props.title} callBack={onChangeTodolistTitleHandler}/>
-                <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={onClickDeleteTodolistHandler}><Delete/></IconButton>
+                <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={onClickDeleteTodolistHandler} disabled={props.entityStatus === "loading"}><Delete/></IconButton>
             </h3>
 
             <AddItem callBack={addTask}/>
 
             <ul>
                 {filteredTasks.map(t => {
-
                     return (
-                        <Task key={t.id} task={t} todoListId={props.id}/>
+                        <Task key={t.id} task={t} todoListId={props.id} />
                     )
                 })}
             </ul>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {appStatusType} from "../State/app-reducer";
 
 
 const instance = axios.create({
@@ -35,6 +36,7 @@ export type taskType = {
     todoListId: string
     order: number
     addedDate: string
+
 }
 export type UpdateTaskModelType = { //тип который ожидает получить бэк
     title: string
