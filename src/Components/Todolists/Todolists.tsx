@@ -5,21 +5,26 @@ import {TodoList} from "./ToDoList/TodoList";
 import {useAppDispatch, useAppSelector} from "../../Store/Store";
 import {
     addTodoListTC,
-    changeTodolistFilterAC, changeTodoListTitleTC, deleteTodoListTC,
-    filterValueType, getTodoListTC,
+    changeTodolistFilterAC,
+    changeTodoListTitleTC,
+    deleteTodoListTC,
+    filterValueType,
+    getTodoListTC,
     todolistDomainType
 } from "../../State/todolists-reducer";
 import {appStatusType} from "../../State/app-reducer";
 import {tasksType} from "../../State/tasks-reducer";
+import {Navigate} from "react-router-dom";
 
-type todolistsType ={
-    requestStatus:appStatusType
+type todolistsType = {
+    requestStatus: appStatusType
 }
 
-export const Todolists:FC<todolistsType> = ({requestStatus}) => {
+export const Todolists: FC<todolistsType> = ({requestStatus}) => {
 
     const todoLists = useAppSelector<todolistDomainType[]>(state => state.todoLists)
     const tasks = useAppSelector<tasksType>(state => state.tasks) // кастомный хук из store
+    const isLoginIn = useAppSelector<boolean>(state => state.auth.isLoginIn)
 
 
     const dispatch = useAppDispatch(); // вставили кастомный хук из store
@@ -42,8 +47,16 @@ export const Todolists:FC<todolistsType> = ({requestStatus}) => {
     }, [dispatch])
 
     useEffect(() => {
-        dispatch(getTodoListTC())
+        if (isLoginIn) {                //если залогинены успешно, то сделать запрос за тудулистами
+            dispatch(getTodoListTC())
+        }
     }, [])
+
+
+    if (!isLoginIn) {
+        return <Navigate to={"/login"}/>
+    }
+
 
     return (<>
             <Grid container sx={{padding: "10px 0"}}>

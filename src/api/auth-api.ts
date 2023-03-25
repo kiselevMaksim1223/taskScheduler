@@ -1,7 +1,7 @@
 import {instance, ResponseType} from "./instans-api";
 
 
-type dataLoginType = {
+export type dataLoginType = {
     email:string
     password:string
     rememberMe:boolean

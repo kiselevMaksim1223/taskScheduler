@@ -2,9 +2,14 @@ import React from 'react';
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {authApi} from "../../api/auth-api";
+import {Navigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../Store/Store";
+import {isLoginInTC} from "../../State/auth-reducer";
 
 export const Login = () => {
+
+    const isLoginIn = useAppSelector<boolean>(state => state.auth.isLoginIn)
+    const dispatch = useAppDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -18,12 +23,13 @@ export const Login = () => {
         }),
         onSubmit: values => {
             // alert(JSON.stringify(values));
-            authApi.login(values)
-                .then(res => {
-
-                })
+            dispatch(isLoginInTC(values))
         },
     });
+
+    if(isLoginIn){                  //если логинизация успешная то перенаправить на главную
+        return <Navigate to={"/"}/>
+    }
 
     return (
         <form onSubmit={formik.handleSubmit}>
