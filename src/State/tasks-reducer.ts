@@ -2,8 +2,9 @@ import {addTodolistAT, deleteTodolistAT, GetTodolistAT} from "./todolists-reduce
 import {Dispatch} from "redux";
 import {taskApi, TaskPriorities, TaskStatuses, taskType, UpdateTaskModelType} from "../api/task-api";
 import {AppRootState} from "../Store/Store";
-import {appStatusType, setErrorAC, setErrorAT, setStatusAC, setStatusAT} from "./app-reducer";
+import {appStatusType, setErrorAT, setStatusAC, setStatusAT} from "./app-reducer";
 import {tasksType} from "../AppWithRedux";
+import {handleServerAppError, handleServerNetworkError} from "../Utils/error-utils";
 
 export type addTaskAT = ReturnType<typeof addTaskAC>
 export type deleteTaskAT = ReturnType<typeof deleteTaskAC>
@@ -24,7 +25,7 @@ export type TasksActionType = addTaskAT
     | updateTaskAT
     | setErrorAT
     | setStatusAT
-    |changeTaskEntityStatusAT
+    | changeTaskEntityStatusAT
 
 export type taskDomainType = taskType & {taskEntityStatus: appStatusType}
 
@@ -170,6 +171,9 @@ export const getTasksTC = (todoListId: string) => (dispatch: Dispatch<TasksActio
             dispatch(getTasksAC(todoListId, res.data.items))
             dispatch(setStatusAC("success"))
         })
+        .catch(err => {
+            handleServerNetworkError(err, dispatch)
+        })
 }
 
 export const createTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch<TasksActionType>) => {
@@ -180,24 +184,29 @@ export const createTaskTC = (todoListId: string, title: string) => (dispatch: Di
                 dispatch(addTaskAC(res.data.data.item))
                 dispatch(setStatusAC("success"))
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                } else {
-                    dispatch(setErrorAC("some error occupied"))
-                }
-                dispatch(setStatusAC("idle"))
+                handleServerAppError(res.data, dispatch)
             }
+        })
+        .catch(err => {
+            handleServerNetworkError(err, dispatch)
         })
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<TasksActionType>) => {
-    dispatch(setStatusAC("loading"))
+    // dispatch(setStatusAC("loading"))
     dispatch(changeTaskEntityStatusAC(todolistId, taskId, "loading"))
     taskApi.deleteTask(todolistId, taskId)
         .then((res) => {
-            dispatch(deleteTaskAC(todolistId, taskId))
-            dispatch(setStatusAC("success"))
-            dispatch(changeTaskEntityStatusAC(todolistId, taskId, "success"))
+            if(res.data.resultCode === 0) {
+                dispatch(deleteTaskAC(todolistId, taskId))
+                // dispatch(setStatusAC("success"))
+                dispatch(changeTaskEntityStatusAC(todolistId, taskId, "success"))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch(err => {
+            handleServerNetworkError(err, dispatch)
         })
 }
 
@@ -211,7 +220,7 @@ export type UpdateDomainTaskModelType = {
     deadline?: string
 }
 
-export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTaskModelType, domainModel: UpdateDomainTaskModelType) => (dispatch: Dispatch, getState: () => AppRootState) => {
+export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTaskModelType, domainModel: UpdateDomainTaskModelType) => (dispatch: Dispatch<TasksActionType>, getState: () => AppRootState) => {
     // const taskModel = getState().tasks[todolistId].find(t => t.id === taskId) // можно так получить таску
 
 
@@ -225,8 +234,21 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTa
         ...domainModel    //domainModel это объект с типом как у обычной model,
                           // но с необязательными полями чтобы мы могли передать только то что хотим заменить
     }
+
+    // dispatch(setStatusAC("loading"))
+    dispatch(changeTaskEntityStatusAC(todolistId, taskId, "loading"))
     taskApi.updateTask(todolistId, taskId, taskModel)
+
         .then((res) => {
-            dispatch(updateTaskAC(todolistId, taskId, res.data.data.item))
+            if(res.data.resultCode === 0) {
+                dispatch(updateTaskAC(todolistId, taskId, res.data.data.item))
+                // dispatch(setStatusAC("success"))
+                dispatch(changeTaskEntityStatusAC(todolistId, taskId, "success"))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch(err => {
+            handleServerNetworkError(err, dispatch)
         })
 }
