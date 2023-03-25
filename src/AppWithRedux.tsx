@@ -12,24 +12,21 @@ import {
     getTodoListTC,
     todolistDomainType
 } from "./State/todolists-reducer";
-import {taskType} from "./api/task-api";
-import {Container, Grid, LinearProgress, Paper} from "@mui/material";
+import {Box, Container, Grid, LinearProgress, Paper} from "@mui/material";
 import {HeaderMui} from "./Components/Header/HeaderMUI";
 import {ErrorSnackbar} from "./Components/ErrorSnackBar/ErrorSnackBar";
 import {appStatusType} from "./State/app-reducer";
 import {taskDomainType} from "./State/tasks-reducer";
-
 
 export type tasksType = {
     [key: string]: taskDomainType[]
 }
 
 const AppWithRedux = React.memo(() => {
-
     console.log("app")
 
     const todoLists = useAppSelector<todolistDomainType[]>(state => state.todoLists)
-    const tasks = useAppSelector<tasksType>(state => state.tasks) // кастомный хук
+    const tasks = useAppSelector<tasksType>(state => state.tasks) // кастомный хук из store
     const requestStatus = useAppSelector<appStatusType>(state => state.app.status)
 
     const dispatch = useAppDispatch(); // вставили кастомный хук из store
@@ -40,17 +37,14 @@ const AppWithRedux = React.memo(() => {
     }, [dispatch])
 
     const addTodolist = useCallback((todoListTitle: string) => {
-        // dispatch(addTodolistAC(todoListTitle))
         dispatch(addTodoListTC(todoListTitle))
     }, [dispatch])
 
     const deleteTodolist = useCallback((todoListId: string) => {
-        // dispatch(deleteTodolistAC(todoListId))
         dispatch(deleteTodoListTC(todoListId))
     }, [dispatch])
 
     const changeTodoListTitle = useCallback((todoListId: string, title: string) => {
-        // dispatch(changeTodolistTitleAC(todoListId, title))
         dispatch(changeTodoListTitleTC(todoListId, title))
     }, [dispatch])
 
@@ -62,25 +56,22 @@ const AppWithRedux = React.memo(() => {
     return (
         <div className="App">
             <HeaderMui/>
-
-                {requestStatus === "loading" && <LinearProgress/>}
-
+            <Box sx={{ width: '100%' , height:"4px"}}>{requestStatus === "loading" && <LinearProgress sx={{position:"relative"}}/>} {/*полоса загрузки*/}</Box>
             <Container fixed>
                 <Grid container sx={{padding: "10px 0"}}>
-                    <AddItem callBack={addTodolist}/>
+                    <AddItem callBack={addTodolist} disabled={requestStatus === "loading"}/>
                 </Grid>
                 <Grid container gap={2}>
                     {todoLists.map(t => {
                         return (
-                            <Grid item>
-                                <Paper sx={{padding: "15px"}}>
+                            <Grid item key={t.id}>
+                                <Paper sx={{padding: "15px", background:"#ebebeb"}}>
                                     <TodoList
-                                        key={t.id}
                                         id={t.id}
                                         title={t.title}
                                         tasks={tasks[t.id]}
                                         filter={t.filter}
-                                        entityStatus={t.entityStatus}
+                                        todolistEntityStatus={t.todolistEntityStatus}
 
                                         changeTodoListFilter={changeTodoListFilter}
                                         deleteTodolist={deleteTodolist}
@@ -92,7 +83,7 @@ const AppWithRedux = React.memo(() => {
                     })}
                 </Grid>
             </Container>
-            <ErrorSnackbar/> {/*всплывающая ошибка */}
+            <ErrorSnackbar /> {/*всплывающая ошибка */}
         </div>
     );
 })

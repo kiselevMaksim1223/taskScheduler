@@ -1,14 +1,5 @@
-import axios from "axios";
-import {appStatusType} from "../State/app-reducer";
+import {instance, ResponseType} from "./instans-api";
 
-
-const instance = axios.create({
-    baseURL: `https://social-network.samuraijs.com/api/1.1/todo-lists/`,
-    withCredentials:true,
-    headers: {
-        'API-KEY': process.env.REACT_APP_API_KEY
-    }
-})
 
 export enum TaskStatuses {
     New = 0,
@@ -48,12 +39,7 @@ export type UpdateTaskModelType = { //тип который ожидает по�
 }
 
 
-type ResponseType<T = {}> = {
-    fieldsErrors:string[]
-    messages:string[]
-    resultCode:number
-    data: T
-}
+
 
 type getTasksType = {
     error:string
@@ -64,18 +50,18 @@ type getTasksType = {
 export const taskApi = {
 
     getTasks(todolistId:string) {
-        return instance.get<getTasksType>(`${todolistId}/tasks`)
+        return instance.get<getTasksType>(`todo-lists/${todolistId}/tasks`)
     },
 
     createTask(todolistId:string, title:string) {
-        return instance.post<ResponseType<{item: taskType}>>(`${todolistId}/tasks`, {title})
+        return instance.post<ResponseType<{item: taskType}>>(`todo-lists/${todolistId}/tasks`, {title})
     },
 
     updateTask(todolistId:string, taskId:string, model:UpdateTaskModelType) {
-        return instance.put<ResponseType<{item: taskType}>>(`${todolistId}/tasks/${taskId}`, model)
+        return instance.put<ResponseType<{item: taskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
 
     deleteTask(todolistId:string, taskId:string) {
-        return instance.delete<ResponseType>(`${todolistId}/tasks/${taskId}`)
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     }
 }

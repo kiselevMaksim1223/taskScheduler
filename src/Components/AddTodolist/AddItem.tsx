@@ -4,6 +4,7 @@ import {FormControl, IconButton, InputAdornment, TextField,} from "@mui/material
 
 export type addItemPropsType = {
     callBack: (item: string) => void
+    disabled?:boolean
 }
 
 export const AddItem = React.memo((props: addItemPropsType) => {
@@ -55,6 +56,7 @@ export const AddItem = React.memo((props: addItemPropsType) => {
                 onBlur={onBlurHandle}
                 error={error}
                 onFocus={onFocusHandler}
+                disabled={props.disabled}
                 InputProps={
                     {
                         endAdornment: (
@@ -62,6 +64,7 @@ export const AddItem = React.memo((props: addItemPropsType) => {
                                 <IconButton
                                     onClick={onClickAddTodolistHandler}
                                     edge="end"
+                                    disabled={props.disabled}
                                 >
                                     <AddBox color={error ? "error" : onFocus ? "primary" : "inherit"}/>
                                 </IconButton>

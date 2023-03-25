@@ -3,6 +3,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 type EditableSpanType = {
     title:string
     callBack:(title:string) => void
+    disabled:boolean
 }
 
 export const EditableSpan = React.memo((props:EditableSpanType) => {
@@ -14,6 +15,7 @@ export const EditableSpan = React.memo((props:EditableSpanType) => {
 
     const onDoubleClickHandler = () => {
         setEditMode(true)
+        console.log(props.disabled)
     }
 
     const onBlurHandler = () => {
@@ -35,9 +37,9 @@ export const EditableSpan = React.memo((props:EditableSpanType) => {
     return (
         <>
             {/*<TextField size={"small"}/>*/}
-            {editMode
+            {editMode && !props.disabled
                 ? <input autoFocus value={title} onChange={onChangeHandler} onBlur={onBlurHandler} onKeyUp={onKeyUpHandler}/>
-                : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
+                : <div onDoubleClick={onDoubleClickHandler} style={{padding:"0 0 5px"}}>{props.title}</div>
             }
         </>
     );

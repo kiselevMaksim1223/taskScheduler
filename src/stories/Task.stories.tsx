@@ -4,7 +4,6 @@ import {Task} from "../Components/Task/Task";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator/ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {AppRootState} from "../Store/Store";
-import {taskType} from "../api/task-api";
 import {taskDomainType} from "../State/tasks-reducer";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -23,7 +22,7 @@ export default {
 
 const TaskCopy = () => {
   const task = useSelector<AppRootState, taskDomainType>(state => state.tasks["todolistId1"][0])
-  return <Task task={task} todoListId={"todolistId1"}/>
+  return <Task task={task} todoListId={"todolistId1"} disabled={false}/>
 }
 
 

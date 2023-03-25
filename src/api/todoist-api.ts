@@ -1,12 +1,4 @@
-import axios from 'axios'
-
-const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    withCredentials: true,
-    headers: {
-        'API-KEY': process.env.REACT_APP_API_KEY
-    }
-})
+import {instance, ResponseType} from "./instans-api";
 
 export type todolistType = {
     addedDate:string
@@ -15,17 +7,12 @@ export type todolistType = {
     title:string
 }
 
-type ResponseType<T = {}> = {
-    fieldsErrors:string[]
-    messages:string[]
-    resultCode:number
-    data: T
-}
+
 
 export const todolistAPI = {
     getTodolists() {
         return instance.get<todolistType[]>(`todo-lists/`)
-            .then((res => res)) //можно писать можно не писать, если нужно достать какие то определенные давнные
+            //.then((res => res)) //можно писать можно не писать, если нужно достать какие то определенные данные
     },
 
     createTodolist(title:string) {

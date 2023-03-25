@@ -3,7 +3,7 @@ import './App.css';
 import {TodoList} from "./Components/ToDoList/TodoList";
 import {v1} from "uuid";
 import {AddItem} from "./Components/AddTodolist/AddItem";
-import {TaskPriorities, TaskStatuses, taskType} from "./api/task-api";
+import {TaskPriorities, TaskStatuses} from "./api/task-api";
 import {filterValueType, todolistDomainType} from "./State/todolists-reducer";
 import {tasksType} from "./AppWithRedux";
 import {taskDomainType} from "./State/tasks-reducer";
@@ -24,8 +24,8 @@ function App() {
     let todoListId_2 = v1()
 
     const [todoLists, setTodoLists] = useState<todolistDomainType[]>([
-        {id: todoListId_1, title: "what to learn", filter: "all", order:1, addedDate:"", entityStatus:"idle"},
-        {id: todoListId_2, title: "what to buy", filter: "all", order:1, addedDate:"", entityStatus:"idle"},
+        {id: todoListId_1, title: "what to learn", filter: "all", order:1, addedDate:"", todolistEntityStatus:"idle"},
+        {id: todoListId_2, title: "what to buy", filter: "all", order:1, addedDate:"", todolistEntityStatus:"idle"},
     ])
 
     const [tasks, setTasks] = useState<tasksType>({
@@ -63,7 +63,7 @@ function App() {
 
     const addTodolist = (todoListTitle: string) => {
         let todoListId = v1()
-        const newTodolist:todolistDomainType = {id: todoListId_1, title: todoListTitle, filter: "all", order:1, addedDate:"", entityStatus:"idle"}
+        const newTodolist:todolistDomainType = {id: todoListId_1, title: todoListTitle, filter: "all", order:1, addedDate:"", todolistEntityStatus:"idle"}
         setTodoLists([...todoLists, newTodolist])
 
         setTasks({...tasks, [todoListId]: []})
@@ -104,7 +104,7 @@ function App() {
                         title={t.title}
                         tasks={changeFilterVariable}
                         filter = {t.filter}
-                        entityStatus={t.entityStatus}
+                        todolistEntityStatus={t.todolistEntityStatus}
                         // removeTask={removeTask}
                         changeTodoListFilter={changeTodoListFilter}
                         // addTask={addTask}

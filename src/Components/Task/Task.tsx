@@ -4,14 +4,15 @@ import {deleteTaskTC, taskDomainType, updateTaskTC} from "../../State/tasks-redu
 import {TaskStatuses} from "../../api/task-api";
 import {useAppDispatch} from "../../Store/Store";
 import {Delete} from "@mui/icons-material";
-import {Checkbox, IconButton} from "@mui/material";
+import {Checkbox, CircularProgress, IconButton} from "@mui/material";
 
 type taskPropsType = {
     task:taskDomainType
     todoListId:string
+    disabled:boolean
 }
 
-export const Task:React.FC<taskPropsType> = memo(({task, todoListId}) => {
+export const Task:React.FC<taskPropsType> = memo(({task, todoListId, disabled}) => {
 
     const dispatch = useAppDispatch()
 
@@ -35,10 +36,26 @@ export const Task:React.FC<taskPropsType> = memo(({task, todoListId}) => {
 
 
     return (
-        <div>
-            <Checkbox checked={task.status === TaskStatuses.Completed} onChange={changeCheckBox} size={"small"}/>
-            <EditableSpan title={task.title} callBack={(title) => changeTaskTitle(title)}/>
-            <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={removeTask} disabled={task.taskEntityStatus === "loading"}><Delete/></IconButton>
+        <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
+            <Checkbox checked={task.status === TaskStatuses.Completed}
+                      onChange={changeCheckBox}
+                      size={"small"}
+                      disabled={disabled || task.taskEntityStatus === "loading"}
+            />
+            <EditableSpan title={task.title}
+                          callBack={(title) => changeTaskTitle(title)}
+                          disabled = {disabled || task.taskEntityStatus === "loading"}
+
+            />
+
+            {disabled || task.taskEntityStatus === "loading"
+                ? <div><CircularProgress size={15}/></div>
+                : <IconButton sx={{":hover": {color: "#11cb5f"}}}
+                              onClick={removeTask}
+                              // disabled={disabled || task.taskEntityStatus === "loading"}
+                >
+                    <Delete/>
+                </IconButton>}
         </div>
     );
 })

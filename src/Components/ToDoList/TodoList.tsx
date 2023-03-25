@@ -16,7 +16,7 @@ type propsType = {
     title: string
     tasks: Array<taskDomainType>
     filter: filterValueType
-    entityStatus: appStatusType
+    todolistEntityStatus: appStatusType
 
     // removeTask: (taskId: string, todoListId: string) => void
     changeTodoListFilter: (value: filterValueType, todoListId: string) => void
@@ -32,6 +32,7 @@ export const TodoList = React.memo((props: propsType) => {
     const dispatch = useAppDispatch()
 
     console.log("todolist")
+
 
     // const addTaskHandler = useCallback((title: string) => {
     //     props.addTask(title, props.id)
@@ -82,16 +83,16 @@ export const TodoList = React.memo((props: propsType) => {
     return (
         <div className={"Todolist"}>
             <h3>
-                <EditableSpan title={props.title} callBack={onChangeTodolistTitleHandler}/>
-                <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={onClickDeleteTodolistHandler} disabled={props.entityStatus === "loading"}><Delete/></IconButton>
+                <EditableSpan title={props.title} callBack={onChangeTodolistTitleHandler} disabled={props.todolistEntityStatus === "loading"}/>
+                <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={onClickDeleteTodolistHandler} disabled={props.todolistEntityStatus === "loading"}><Delete/></IconButton>
             </h3>
 
-            <AddItem callBack={addTask}/>
+            <AddItem callBack={addTask} disabled={props.todolistEntityStatus === "loading"}/>
 
             <ul>
                 {filteredTasks.map(t => {
                     return (
-                        <Task key={t.id} task={t} todoListId={props.id} />
+                        <Task key={t.id} task={t} todoListId={props.id} disabled ={props.todolistEntityStatus === "loading"}/>
                     )
                 })}
             </ul>
