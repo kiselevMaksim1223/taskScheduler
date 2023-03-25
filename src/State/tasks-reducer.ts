@@ -193,13 +193,13 @@ export const createTaskTC = (todoListId: string, title: string) => (dispatch: Di
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<TasksActionType>) => {
-    // dispatch(setStatusAC("loading"))
+    dispatch(setStatusAC("loading"))
     dispatch(changeTaskEntityStatusAC(todolistId, taskId, "loading"))
     taskApi.deleteTask(todolistId, taskId)
         .then((res) => {
             if(res.data.resultCode === 0) {
                 dispatch(deleteTaskAC(todolistId, taskId))
-                // dispatch(setStatusAC("success"))
+                dispatch(setStatusAC("success"))
                 dispatch(changeTaskEntityStatusAC(todolistId, taskId, "success"))
             } else {
                 handleServerAppError(res.data, dispatch)
@@ -235,14 +235,14 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTa
                           // но с необязательными полями чтобы мы могли передать только то что хотим заменить
     }
 
-    // dispatch(setStatusAC("loading"))
+    dispatch(setStatusAC("loading"))
     dispatch(changeTaskEntityStatusAC(todolistId, taskId, "loading"))
     taskApi.updateTask(todolistId, taskId, taskModel)
 
         .then((res) => {
             if(res.data.resultCode === 0) {
                 dispatch(updateTaskAC(todolistId, taskId, res.data.data.item))
-                // dispatch(setStatusAC("success"))
+                dispatch(setStatusAC("success"))
                 dispatch(changeTaskEntityStatusAC(todolistId, taskId, "success"))
             } else {
                 handleServerAppError(res.data, dispatch)
