@@ -6,7 +6,7 @@ import {store} from "./Store/Store";
 import AppWithRedux from "./AppWithRedux";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "./Utils/PalleteMUI";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 
 
 const root = ReactDOM.createRoot(
@@ -15,9 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>
-            <BrowserRouter>
+            <HashRouter>
                 <AppWithRedux/>
-            </BrowserRouter>
+            </HashRouter>
         </ThemeProvider>
     </Provider>
 );
