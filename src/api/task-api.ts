@@ -39,8 +39,6 @@ export type UpdateTaskModelType = { //тип который ожидает по�
 }
 
 
-
-
 type getTasksType = {
     error:string
     totalCount:number

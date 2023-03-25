@@ -4,12 +4,11 @@ import {
     changeTaskEntityStatusAC,
     changeTaskEntityStatusAT,
     deleteTaskAT,
-    tasksReducer,
+    tasksReducer, tasksType,
     updateTaskAT
 } from "./tasks-reducer";
 import {deleteTodolistAC} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/task-api";
-import {tasksType} from "../AppWithRedux";
 
 let initialState:tasksType
 let todoListId_1 = v1()

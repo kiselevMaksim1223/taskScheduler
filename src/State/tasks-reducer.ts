@@ -3,7 +3,6 @@ import {Dispatch} from "redux";
 import {taskApi, TaskPriorities, TaskStatuses, taskType, UpdateTaskModelType} from "../api/task-api";
 import {AppRootState} from "../Store/Store";
 import {appStatusType, setErrorAT, setStatusAC, setStatusAT} from "./app-reducer";
-import {tasksType} from "../AppWithRedux";
 import {handleServerAppError, handleServerNetworkError} from "../Utils/error-utils";
 
 export type addTaskAT = ReturnType<typeof addTaskAC>
@@ -28,6 +27,11 @@ export type TasksActionType = addTaskAT
     | changeTaskEntityStatusAT
 
 export type taskDomainType = taskType & {taskEntityStatus: appStatusType}
+
+export type tasksType = {
+    [key: string]: taskDomainType[]
+}
+
 
 const initialState: tasksType = {}
 

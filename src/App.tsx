@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TodoList} from "./Components/ToDoList/TodoList";
+import {TodoList} from "./Components/Todolists/ToDoList/TodoList";
 import {v1} from "uuid";
 import {AddItem} from "./Components/AddTodolist/AddItem";
 import {TaskPriorities, TaskStatuses} from "./api/task-api";
 import {filterValueType, todolistDomainType} from "./State/todolists-reducer";
-import {tasksType} from "./AppWithRedux";
-import {taskDomainType} from "./State/tasks-reducer";
+
+import {taskDomainType, tasksType} from "./State/tasks-reducer";
 
 
 export type taskItemType = {
@@ -14,8 +14,6 @@ export type taskItemType = {
     title: string
     isDone: boolean
 }
-
-
 
 
 function App() {
