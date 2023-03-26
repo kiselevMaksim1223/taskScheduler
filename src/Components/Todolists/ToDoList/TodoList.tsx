@@ -7,7 +7,7 @@ import {TaskStatuses} from "../../../api/task-api";
 import {filterValueType} from "../../../State/todolists-reducer";
 import {useAppDispatch} from "../../../Store/Store";
 import {Delete} from "@mui/icons-material";
-import {ButtonGroup, IconButton} from "@mui/material";
+import {ButtonGroup, CircularProgress, IconButton, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import {appStatusType} from "../../../State/app-reducer";
 
@@ -85,14 +85,16 @@ export const TodoList = React.memo((props: propsType) => {
 
     return (
         <div className={"Todolist"}>
-            <h3>
+            <h3 style={{display:"flex", justifyContent:"space-between", alignItems:"center", height:"40px"}}>
                 <EditableSpan title={props.title} callBack={onChangeTodolistTitleHandler} disabled={props.todolistEntityStatus === "loading"}/>
-                <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={onClickDeleteTodolistHandler} disabled={props.todolistEntityStatus === "loading"}><Delete/></IconButton>
+                {props.todolistEntityStatus === "loading"
+                ? <CircularProgress size={20}/>
+                : <IconButton sx={{":hover":{color: "#11cb5f"}}} onClick={onClickDeleteTodolistHandler}><Delete/></IconButton>}
             </h3>
 
             <AddItem callBack={addTask} disabled={props.todolistEntityStatus === "loading"}/>
 
-            <ul>
+            <ul style={{padding:"0"}}>
                 {filteredTasks.map(t => {
                     return (
                         <Task key={t.id} task={t} todoListId={props.id} disabled ={props.todolistEntityStatus === "loading"}/>

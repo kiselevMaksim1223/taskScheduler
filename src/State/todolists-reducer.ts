@@ -153,10 +153,14 @@ export const deleteTodoListTC = (todoListId:string) => (dispatch:Dispatch<TodoLi
 }
 
 export const changeTodoListTitleTC = (todoListId:string, title:string) => (dispatch:Dispatch<TodoListActionType>) => {
+    dispatch(changeTodolistEntityStatusAC(todoListId, "loading"))
+    dispatch(setStatusAC("loading"))
     todolistAPI.updateTodolist(todoListId, title)
         .then((res) => {
-            if (res.data.messages.length) {
+            if (res.data.resultCode === 0) {
                 dispatch(changeTodolistTitleAC(todoListId, title))
+                dispatch(changeTodolistEntityStatusAC(todoListId, "success"))
+                dispatch(setStatusAC("success"))
             } else {
                 handleServerAppError(res.data, dispatch)
             }

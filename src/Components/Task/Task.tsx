@@ -4,7 +4,7 @@ import {deleteTaskTC, taskDomainType, updateTaskTC} from "../../State/tasks-redu
 import {TaskStatuses} from "../../api/task-api";
 import {useAppDispatch} from "../../Store/Store";
 import {Delete} from "@mui/icons-material";
-import {Checkbox, CircularProgress, IconButton} from "@mui/material";
+import {Box, Checkbox, CircularProgress, IconButton} from "@mui/material";
 
 type taskPropsType = {
     task:taskDomainType
@@ -36,26 +36,30 @@ export const Task:React.FC<taskPropsType> = memo(({task, todoListId, disabled}) 
 
 
     return (
-        <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
-            <Checkbox checked={task.status === TaskStatuses.Completed}
-                      onChange={changeCheckBox}
-                      size={"small"}
-                      disabled={disabled || task.taskEntityStatus === "loading"}
+        <div style={{display:"flex", justifyContent:"space-between",alignItems:"center"}}>
+            <Box sx={{display:"flex", gap:"5px", alignItems:"center"}}>
+                <Checkbox checked={task.status === TaskStatuses.Completed}
+                         onChange={changeCheckBox}
+                         size={"small"}
+                         disabled={disabled || task.taskEntityStatus === "loading"}
             />
-            <EditableSpan title={task.title}
-                          callBack={(title) => changeTaskTitle(title)}
-                          disabled = {disabled || task.taskEntityStatus === "loading"}
+                <EditableSpan title={task.title}
+                              callBack={(title) => changeTaskTitle(title)}
+                              disabled={disabled || task.taskEntityStatus === "loading"}
 
-            />
+                />
+            </Box>
 
-            {disabled || task.taskEntityStatus === "loading"
-                ? <div><CircularProgress size={15}/></div>
+            <Box sx={{width:"40px", height:"40px",display:"flex", justifyContent:"center",alignItems:"center"}}>
+                {task.taskEntityStatus === "loading"
+                ? <CircularProgress size={20}/>
                 : <IconButton sx={{":hover": {color: "#11cb5f"}}}
                               onClick={removeTask}
-                              // disabled={disabled || task.taskEntityStatus === "loading"}
+                    disabled={disabled}
                 >
                     <Delete/>
                 </IconButton>}
+            </Box>
         </div>
     );
 })

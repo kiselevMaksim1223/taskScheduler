@@ -1,4 +1,10 @@
-import {addTodolistAT, deleteTodolistAT, GetTodolistAT} from "./todolists-reducer";
+import {
+    addTodolistAT,
+    changeTodolistEntityStatusAC,
+    changeTodolistEntityStatusAT,
+    deleteTodolistAT,
+    GetTodolistAT
+} from "./todolists-reducer";
 import {Dispatch} from "redux";
 import {taskApi, TaskPriorities, TaskStatuses, taskType, UpdateTaskModelType} from "../api/task-api";
 import {AppRootState} from "../Store/Store";
@@ -25,6 +31,7 @@ export type TasksActionType = addTaskAT
     | setErrorAT
     | setStatusAT
     | changeTaskEntityStatusAT
+    | changeTodolistEntityStatusAT
 
 export type taskDomainType = taskType & {taskEntityStatus: appStatusType}
 
@@ -182,11 +189,13 @@ export const getTasksTC = (todoListId: string) => (dispatch: Dispatch<TasksActio
 
 export const createTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch<TasksActionType>) => {
     dispatch(setStatusAC("loading"))
+    dispatch(changeTodolistEntityStatusAC(todoListId, "loading"))
     taskApi.createTask(todoListId, title)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(addTaskAC(res.data.data.item))
                 dispatch(setStatusAC("success"))
+                dispatch(changeTodolistEntityStatusAC(todoListId, "success"))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -213,7 +222,6 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: D
             handleServerNetworkError(err, dispatch)
         })
 }
-
 
 export type UpdateDomainTaskModelType = {
     title?: string

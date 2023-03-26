@@ -65,7 +65,7 @@ export const Todolists: FC<todolistsType> = ({requestStatus}) => {
                 {todoLists.map(t => {
                     return (
                         <Grid item key={t.id}>
-                            <Paper sx={{padding: "15px", background: "#ebebeb"}}>
+                            <Paper sx={{padding: "15px", background: "#ebebeb", width:"215px"}}>
                                 <TodoList
                                     id={t.id}
                                     title={t.title}
