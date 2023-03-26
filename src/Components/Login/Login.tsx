@@ -7,6 +7,7 @@ import {useAppDispatch, useAppSelector} from "../../Store/Store";
 import {isLoginInTC} from "../../State/auth-reducer";
 
 export const Login = () => {
+    console.log("login")
 
     const isLoginIn = useAppSelector<boolean>(state => state.auth.isLoginIn)
     const dispatch = useAppDispatch()
@@ -17,17 +18,16 @@ export const Login = () => {
             password: "",
             rememberMe: false
         },
-        validationSchema:Yup.object({
+        validationSchema: Yup.object({           // библиотека yup для валидации формы
             email: Yup.string().email("Invalid email address").required("Required field"),
-            password:Yup.string().min(4, "Password should be at least 4 characters").required("Required field"),
+            password: Yup.string().min(4, "Password should be at least 4 characters").required("Required field"),
         }),
         onSubmit: values => {
-            // alert(JSON.stringify(values));
             dispatch(isLoginInTC(values))
         },
     });
 
-    if(isLoginIn){                  //если логинизация успешная то перенаправить на главную
+    if (isLoginIn) {                  //если логинизация успешная то перенаправить на главную
         return <Navigate to={"/"}/>
     }
 
@@ -37,27 +37,26 @@ export const Login = () => {
                 <Grid item justifyContent={'center'}>
                     <FormControl>
                         <FormLabel>
-                            <p>To log in get registered
-                                <a href={'https://social-network.samuraijs.com/'}
-                                   target={'_blank'}> here
-                                </a>
-                            </p>
-                            <p>or use common test account credentials:</p>
-                            <p>Email: free@samuraijs.com</p>
+                            <p>You can registered <a href={"https://social-network.samuraijs.com/"} target={"_blank"}>here</a></p>
+                            <p>or use common test account</p>
+                            <p>Email: <span>free@samuraijs.com</span></p>
                             <p>Password: free</p>
                         </FormLabel>
                         <FormGroup>
 
                             <TextField label="Email" margin="normal"
-                                       name="email" value={formik.values.email} //необходимые данные для Formik (name, value, onChange)
+                                       name="email"
+                                       value={formik.values.email} //необходимые данные для Formik (name, value, onChange)
                                        onChange={formik.handleChange} onBlur={formik.handleBlur}
                             />
-                            {formik.errors.email && formik.touched.email && <div style={{color:"red"}}>{formik.errors.email}</div>}
+                            {formik.errors.email && formik.touched.email &&
+                                <div style={{color: "red"}}>{formik.errors.email}</div>}
                             <TextField type="password" label="Password"
                                        margin="normal"
                                        {...formik.getFieldProps("password")} // функция заменяющая (name, onChange, value, checked)
                             />
-                            {formik.errors.password && formik.touched.password && <div style={{color:"red"}}>{formik.errors.password}</div>}
+                            {formik.errors.password && formik.touched.password &&
+                                <div style={{color: "red"}}>{formik.errors.password}</div>}
                             <FormControlLabel label={'Remember me'} control={<Checkbox/>}
                                               name="rememberMe" checked={formik.values.rememberMe}
                                               onChange={formik.handleChange}

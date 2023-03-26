@@ -21,7 +21,7 @@ type todolistsType = {
 }
 
 export const Todolists: FC<todolistsType> = ({requestStatus}) => {
-
+    console.log("todolists")
     const todoLists = useAppSelector<todolistDomainType[]>(state => state.todoLists)
     const tasks = useAppSelector<tasksType>(state => state.tasks) // кастомный хук из store
     const isLoginIn = useAppSelector<boolean>(state => state.auth.isLoginIn)
@@ -57,7 +57,6 @@ export const Todolists: FC<todolistsType> = ({requestStatus}) => {
         return <Navigate to={"/login"}/>
     }
 
-
     return (<>
             <Grid container sx={{padding: "10px 0"}}>
                 <AddItem callBack={addTodolist} disabled={requestStatus === "loading"}/>
@@ -73,6 +72,7 @@ export const Todolists: FC<todolistsType> = ({requestStatus}) => {
                                     tasks={tasks[t.id]}
                                     filter={t.filter}
                                     todolistEntityStatus={t.todolistEntityStatus}
+                                    isLoginIn={isLoginIn}
 
                                     changeTodoListFilter={changeTodoListFilter}
                                     deleteTodolist={deleteTodolist}

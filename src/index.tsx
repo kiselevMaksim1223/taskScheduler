@@ -6,7 +6,7 @@ import {store} from "./Store/Store";
 import AppWithRedux from "./AppWithRedux";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "./Utils/PalleteMUI";
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 
 
 const root = ReactDOM.createRoot(

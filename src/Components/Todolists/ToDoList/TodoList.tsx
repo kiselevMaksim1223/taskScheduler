@@ -17,6 +17,7 @@ type propsType = {
     tasks: Array<taskDomainType>
     filter: filterValueType
     todolistEntityStatus: appStatusType
+    isLoginIn:boolean
 
     // removeTask: (taskId: string, todoListId: string) => void
     changeTodoListFilter: (value: filterValueType, todoListId: string) => void
@@ -63,7 +64,9 @@ export const TodoList = React.memo((props: propsType) => {
     }, [props.changeTodoListStatus, props.id])
 
     useEffect(() => {
-        dispatch(getTasksTC(props.id))
+        if(props.isLoginIn) {
+            dispatch(getTasksTC(props.id))
+        }
     }, [])
 
     const changeFilter = () => {

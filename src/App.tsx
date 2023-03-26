@@ -103,6 +103,7 @@ function App() {
                         tasks={changeFilterVariable}
                         filter = {t.filter}
                         todolistEntityStatus={t.todolistEntityStatus}
+                        isLoginIn={true}
                         // removeTask={removeTask}
                         changeTodoListFilter={changeTodoListFilter}
                         // addTask={addTask}
