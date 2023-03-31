@@ -16,7 +16,6 @@ let todoListId_2 = v1()
 beforeEach(() => {
     initialState = {
         [todoListId_1]: [
-
             {id: "1", title: "Shoes", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low , taskEntityStatus:"idle"},
             {id: v1(), title: "T-shirt", status:TaskStatuses.Completed, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low, taskEntityStatus:"idle"},
             {id: v1(), title: "Skirt", status:TaskStatuses.New, todoListId:"todolistId1", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low,taskEntityStatus:"idle"},
@@ -86,15 +85,15 @@ test("task checkbox status should be changed", () => {
 test('property with todolistId should be deleted', () => {
 
 
-    const action = deleteTodolistAC('todolistId2')
+    const action = deleteTodolistAC(todoListId_2)
 
     const endState = tasksReducer(initialState, action)
 
 
     const keys = Object.keys(endState)
 
-    expect(keys.length).toBe(2)
-    expect(endState['todolistId2']).not.toBeDefined()
+    expect(keys.length).toBe(1)
+    expect(endState[todoListId_2]).not.toBeDefined()
 })
 
 test('task entity status should changed', () => {

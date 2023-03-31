@@ -4,10 +4,10 @@ import {AddItem} from "../../AddTodolist/AddItem";
 import {Task} from "../../Task/Task";
 import {createTaskTC, getTasksTC, taskDomainType} from "../../../State/tasks-reducer";
 import {TaskStatuses} from "../../../api/task-api";
-import {filterValueType} from "../../../State/todolists-reducer";
+import {deleteTodolistAC, filterValueType} from "../../../State/todolists-reducer";
 import {useAppDispatch} from "../../../Store/Store";
 import {Delete} from "@mui/icons-material";
-import {ButtonGroup, CircularProgress, IconButton, Typography} from "@mui/material";
+import {ButtonGroup, CircularProgress, IconButton} from "@mui/material";
 import Button from "@mui/material/Button";
 import {appStatusType} from "../../../State/app-reducer";
 
@@ -66,6 +66,10 @@ export const TodoList = React.memo((props: propsType) => {
     useEffect(() => {
         if(props.isLoginIn) {
             dispatch(getTasksTC(props.id))
+        }
+
+        return ()=>{
+            dispatch(deleteTodolistAC(props.id))  //cleanup function for deleting all then logout
         }
     }, [])
 
