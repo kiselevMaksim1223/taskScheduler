@@ -16,7 +16,7 @@ beforeEach(() => {
                 id: "1",
                 title: "Shoes",
                 status: TaskStatuses.Completed,
-                todoListId: "todolistId1",
+                todoListId: todoListId_1,
                 description: "",
                 addedDate: "",
                 deadline: "",
@@ -29,7 +29,7 @@ beforeEach(() => {
                 id: v1(),
                 title: "T-shirt",
                 status: TaskStatuses.Completed,
-                todoListId: "todolistId1",
+                todoListId: todoListId_1,
                 description: "",
                 addedDate: "",
                 deadline: "",
@@ -42,7 +42,7 @@ beforeEach(() => {
                 id: v1(),
                 title: "Skirt",
                 status: TaskStatuses.New,
-                todoListId: "todolistId1",
+                todoListId: todoListId_1,
                 description: "",
                 addedDate: "",
                 deadline: "",
@@ -55,7 +55,7 @@ beforeEach(() => {
                 id: v1(),
                 title: "Panties",
                 status: TaskStatuses.Completed,
-                todoListId: "todolistId1",
+                todoListId: todoListId_1,
                 description: "",
                 addedDate: "",
                 deadline: "",
@@ -70,7 +70,7 @@ beforeEach(() => {
                 id: v1(),
                 title: "Shoes",
                 status: TaskStatuses.Completed,
-                todoListId: "todolistId1",
+                todoListId: todoListId_2,
                 description: "",
                 addedDate: "",
                 deadline: "",
@@ -83,7 +83,7 @@ beforeEach(() => {
                 id: v1(),
                 title: "red bull",
                 status: TaskStatuses.Completed,
-                todoListId: "todolistId1",
+                todoListId: todoListId_2,
                 description: "",
                 addedDate: "",
                 deadline: "",
@@ -96,7 +96,7 @@ beforeEach(() => {
                 id: "3",
                 title: "some shit",
                 status: TaskStatuses.New,
-                todoListId: "todolistId1",
+                todoListId: todoListId_2,
                 description: "",
                 addedDate: "",
                 deadline: "",
@@ -109,13 +109,12 @@ beforeEach(() => {
     }
 })
 
-test.skip("new task should be added", () => {
-
+test("new task should be added", () => {
 
     const endState = tasksReducer(initialState, tasksActions.addTask({
         task: {
             id: v1(), title: "Shoes123", status: TaskStatuses.Completed,
-            todoListId: "todolistId2", description: "", addedDate: "",
+            todoListId: todoListId_2, description: "", addedDate: "",
             deadline: "", order: 0, startDate: "", priority: TaskPriorities.Low
         }
     }))

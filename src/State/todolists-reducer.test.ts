@@ -34,9 +34,8 @@ test("new todolist should be added", () => {
 })
 
 test("todolist should be remove", () => {
-    let action = {type:"DELETE-TODOLIST", todoListId: todoListId_2}
 
-    const endState = todolistsReducer(initialState, action)
+    const endState = todolistsReducer(initialState, todolistActions.deleteTodolist({todoListId:todoListId_2}))
 
     expect(endState.length).toBe(1)
     expect(endState[0].title).toBe("what to learn")

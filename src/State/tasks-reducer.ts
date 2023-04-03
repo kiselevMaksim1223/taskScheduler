@@ -118,7 +118,7 @@ export type UpdateDomainTaskModelType = {
     deadline?: string
 }
 
-export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTaskModelType, domainModel: UpdateDomainTaskModelType): AppThunk => (dispatch, getState: () => AppRootState) => {
+export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTaskModelType, domainModel: UpdateDomainTaskModelType): AppThunk => async (dispatch, getState: () => AppRootState) => {
     // const taskModel = getState().tasks[todolistId].find(t => t.id === taskId) // можно так получить таску
 
     const taskModel: UpdateTaskModelType = { //а можно так получить таску
@@ -134,9 +134,9 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTa
 
     dispatch(appActions.setStatus({status: "loading"}))
     dispatch(tasksActions.changeTaskEntityStatus({todoListId:todolistId, taskId, taskEntityStatus:"loading"}))
-    taskApi.updateTask(todolistId, taskId, taskModel)
 
-        .then((res) => {
+    const res = await taskApi.updateTask(todolistId, taskId, taskModel)
+        try {
             if (res.data.resultCode === 0) {
                 dispatch(tasksActions.updateTask({todoListId:todolistId, taskId, model:res.data.data.item}))
                 dispatch(appActions.setStatus({status: "success"}))
@@ -144,8 +144,12 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTa
             } else {
                 handleServerAppError(res.data, dispatch)
             }
-        })
-        .catch(err => {
+        } catch(err:any){
             handleServerNetworkError(err, dispatch)
-        })
+        }
+
+
+        // catch(err => {
+        //
+        // })
 }
