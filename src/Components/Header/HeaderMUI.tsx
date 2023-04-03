@@ -51,11 +51,6 @@ export const HeaderMui = () => {
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                     Task Scheduler
                 </Typography>
-                {/*{isLoginIn && <Button color="inherit" onClick={onClickLogOutHandler}>LogOut</Button>}*/}
-                {/*<Box>*/}
-                {/*    <Avatar sx={{bgcolor: deepPurple[500]}}>{userName?.split("")[0]}</Avatar>*/}
-                {/*    <Typography variant={"caption"}>{userName}</Typography>*/}
-                {/*</Box>*/}
                 {isLoginIn && <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center'}}>
                     <Tooltip title="Account settings">
                         <IconButton

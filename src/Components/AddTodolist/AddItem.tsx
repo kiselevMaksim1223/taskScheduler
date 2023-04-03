@@ -27,7 +27,6 @@ export const AddItem = React.memo((props: addItemPropsType) => {
     }
 
     const onClickAddTodolistHandler = () => {
-
         value.trim() === ""
             ? setError(true)
             : props.callBack(value)

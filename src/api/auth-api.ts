@@ -1,6 +1,5 @@
 import {instance, ResponseType} from "./instans-api";
 
-
 export type dataLoginType = {
     email:string
     password:string

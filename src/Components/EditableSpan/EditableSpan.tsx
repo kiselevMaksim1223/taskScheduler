@@ -1,5 +1,5 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
-import {TextareaAutosize, TextField} from "@mui/material";
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {TextField} from "@mui/material";
 
 type EditableSpanType = {
     title:string
@@ -37,9 +37,11 @@ export const EditableSpan = React.memo((props:EditableSpanType) => {
 
     return (
         <>
-            {/*<TextField size={"small"}/>*/}
             {editMode && !props.disabled
-                ? <TextField size={"small"} variant={"standard"} autoFocus value={title} onChange={onChangeHandler} onBlur={onBlurHandler} onKeyUp={onKeyUpHandler}/>
+                ? <TextField size={"small"} variant={"standard"} autoFocus
+                             value={title} onChange={onChangeHandler} onBlur={onBlurHandler}
+                             onKeyUp={onKeyUpHandler}
+                />
                 : <div onDoubleClick={onDoubleClickHandler} style={{padding:"0 0 5px"}}>{props.title}</div>
             }
         </>

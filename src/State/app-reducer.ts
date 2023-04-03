@@ -1,4 +1,3 @@
-
 export type appStatusType = "idle" | "success" | "failed" | "loading"
 
 export type AppInitialStateType = {

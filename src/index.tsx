@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {Provider} from "react-redux";
 import {store} from "./Store/Store";
-import AppWithRedux from "./AppWithRedux";
+import {AppWithRedux} from "./AppWithRedux";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "./Utils/PalleteMUI";
 import {HashRouter} from "react-router-dom";
-
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

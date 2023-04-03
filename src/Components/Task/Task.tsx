@@ -22,18 +22,15 @@ export const Task:React.FC<taskPropsType> = memo(({task, todoListId, disabled}) 
     }, [dispatch])
 
     const changeTaskTitle = useCallback((title:string) => {
-        // dispatch(changeTaskTitleAC(todoListId, task.id, title))
         dispatch(updateTaskTC(todoListId, task.id, task, {title:title}))
     }, [dispatch])
 
     const changeCheckBox = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        // dispatch(changeTaskStatusAC(todoListId, task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New))
         dispatch(updateTaskTC(todoListId, task.id, task, {
             status:e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
         }))
         console.log(task.status)
     },[dispatch])
-
 
     return (
         <div style={{display:"flex", justifyContent:"space-between",alignItems:"center"}}>

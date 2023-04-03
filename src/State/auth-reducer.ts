@@ -13,8 +13,6 @@ export type isInitializedAT = ReturnType<typeof isInitializedAC>
 
 type AuthActionType = isLoginInAT | isInitializedAT | setUserNameAT | setErrorAT | setStatusAT
 
-
-
 const initialState: authInitialStateType = {
     isLoginIn: false,
     isInitialized:false
@@ -76,7 +74,6 @@ export const isInitializedTC = () => (dispatch:Dispatch<AuthActionType>) => {
         })
 }
 
-
 export const logOutTC = () => (dispatch:Dispatch<AuthActionType>) => {
     dispatch(setStatusAC("loading"))
     authApi.logOut()
@@ -92,6 +89,3 @@ export const logOutTC = () => (dispatch:Dispatch<AuthActionType>) => {
             handleServerAppError(err, dispatch)
         })
 }
-
-
-

@@ -10,8 +10,7 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./Components/Login/Login";
 import {isInitializedTC} from "./State/auth-reducer";
 
-
-const AppWithRedux = React.memo(() => {
+export const AppWithRedux = React.memo(() => {
     console.log("app")
     const requestStatus = useAppSelector<appStatusType>(state => state.app.status)
     const isInitialized = useAppSelector<boolean>(state => state.auth.isInitialized)
@@ -49,5 +48,3 @@ const AppWithRedux = React.memo(() => {
         </div>
     );
 })
-
-export default AppWithRedux;

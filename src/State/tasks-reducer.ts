@@ -13,16 +13,12 @@ import {handleServerAppError, handleServerNetworkError} from "../Utils/error-uti
 
 export type addTaskAT = ReturnType<typeof addTaskAC>
 export type deleteTaskAT = ReturnType<typeof deleteTaskAC>
-// export type changeTaskTitleAT = ReturnType<typeof changeTaskTitleAC>
-// export type changeTaskStatusAT = ReturnType<typeof changeTaskStatusAC>
 type GetTasksAT = ReturnType<typeof getTasksAC>
 export type updateTaskAT = ReturnType<typeof updateTaskAC>
 export type changeTaskEntityStatusAT = ReturnType<typeof changeTaskEntityStatusAC>
 
 export type TasksActionType = addTaskAT
     | deleteTaskAT
-    // | changeTaskTitleAT
-    // | changeTaskStatusAT
     | addTodolistAT
     | deleteTodolistAT
     | GetTodolistAT
@@ -39,40 +35,17 @@ export type tasksType = {
     [key: string]: taskDomainType[]
 }
 
-
 const initialState: tasksType = {}
 
 export const tasksReducer = (state = initialState, action: TasksActionType):tasksType => {
     switch (action.type) {
         case "ADD-TASK":
-            // let newTask = {
-            //     id: v1(),
-            //     title: action.taskTitle,
-            //     status: TaskStatuses.New,
-            //     todoListId: "todolistId1",
-            //     description: "",
-            //     addedDate: "",
-            //     deadline: "",
-            //     order: 0,
-            //     startDate: "",
-            //     priority: TaskPriorities.Low
-            // }
             return {...state, [action.task.todoListId]:
                     [{...action.task, taskEntityStatus:"idle"}, ...state[action.task.todoListId]]
             }
 
         case "DELETE-TASK":
             return {...state, [action.todoListId]: [...state[action.todoListId].filter(t => t.id !== action.taskId)]}
-
-
-        // case "CHANGE-TASK-TITLE":
-        //     return {
-        //         ...state,
-        //         [action.todoListId]: state[action.todoListId].map(t => t.id === action.taskId ? {
-        //             ...t,
-        //             title: action.taskTitle
-        //         } : t)
-        //     }
 
         case "UPDATE-TASK":
             return {
@@ -129,24 +102,6 @@ export const deleteTaskAC = (todoListId: string, taskId: string) => {
         taskId: taskId
     } as const
 }
-
-// export const changeTaskTitleAC = (todoListId: string, taskId: string, title: string) => {
-//     return {
-//         type: "CHANGE-TASK-TITLE",
-//         todoListId: todoListId,
-//         taskId: taskId,
-//         taskTitle: title
-//     } as const
-// }
-
-// export const changeTaskStatusAC = (todoListId: string, taskId: string, status: TaskStatuses) => {
-//     return {
-//         type: "CHANGE-TASK-STATUS",
-//         todoListId: todoListId,
-//         taskId: taskId,
-//         status
-//     } as const
-// }
 
 export const updateTaskAC = (todoListId: string, taskId: string, model: UpdateDomainTaskModelType) => {
     return {

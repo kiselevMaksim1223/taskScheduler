@@ -7,8 +7,6 @@ export type todolistType = {
     title:string
 }
 
-
-
 export const todolistAPI = {
     getTodolists() {
         return instance.get<todolistType[]>(`todo-lists/`)
@@ -26,5 +24,4 @@ export const todolistAPI = {
     updateTodolist(todolistId:string, title:string){
         return instance.put<ResponseType>(`todo-lists/${todolistId}`,{title})
     }
-
 }

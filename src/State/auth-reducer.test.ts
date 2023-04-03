@@ -9,7 +9,6 @@ import {
 
 export const x = () => {}
 
-
 test("isLoginIn status should change", () => {
     const initialState: authInitialStateType = {
         isLoginIn: false,

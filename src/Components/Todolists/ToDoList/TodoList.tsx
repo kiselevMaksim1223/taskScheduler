@@ -19,13 +19,9 @@ type propsType = {
     todolistEntityStatus: appStatusType
     isLoginIn:boolean
 
-    // removeTask: (taskId: string, todoListId: string) => void
     changeTodoListFilter: (value: filterValueType, todoListId: string) => void
-    // addTask: (title: string, todoListId: string) => void
-    // changeCheckBox: (id: string, isDone: boolean, todoListId: string) => void
     deleteTodolist: (todoListId: string) => void
     changeTodoListStatus: (todoListId: string, title: string) => void
-    // changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
 }
 
 export const TodoList = React.memo((props: propsType) => {
@@ -34,30 +30,13 @@ export const TodoList = React.memo((props: propsType) => {
 
     console.log("todolist")
 
-
-    // const addTaskHandler = useCallback((title: string) => {
-    //     props.addTask(title, props.id)
-    // }, [props.addTask, props.id])
-
-    // const onClickRemoveTaskHandler = (id: string) => {
-    //     props.removeTask(id, props.id)
-    // }
-
     const onClickChangeFilterHandler = useCallback((filter: filterValueType) => {
         props.changeTodoListFilter(filter, props.id)
     }, [props.changeTodoListFilter, props.id])
 
-    // const onChangeCheckBoxInputHandler = (taskID: string, e: ChangeEvent<HTMLInputElement>) => {
-    //     props.changeCheckBox(taskID, e.currentTarget.checked, props.id)
-    // }
-
     const onClickDeleteTodolistHandler = useCallback(() => {
         props.deleteTodolist(props.id)
     }, [props.deleteTodolist, props.id])
-
-    // const onChangeTaskTitleHandler = (title: string, taskId: string) => {
-    //     props.changeTaskTitle(props.id, taskId, title)
-    // }
 
     const onChangeTodolistTitleHandler = useCallback((title: string) => {
         props.changeTodoListStatus(props.id, title)
@@ -85,7 +64,6 @@ export const TodoList = React.memo((props: propsType) => {
     const addTask = useCallback((title: string) => {
         dispatch(createTaskTC(props.id, title))
     }, [dispatch, props.id])
-
 
     return (
         <div className={"Todolist"}>

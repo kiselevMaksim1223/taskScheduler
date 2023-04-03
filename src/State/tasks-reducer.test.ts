@@ -31,9 +31,10 @@ beforeEach(() => {
 
 test.skip("new task should be added", () => {
 
-
     let action:addTaskAT = {type:"ADD-TASK",
-        task: {id: v1(), title: "Shoes123", status:TaskStatuses.Completed, todoListId:"todolistId2", description:"",addedDate: "", deadline: "", order:0, startDate:"", priority:TaskPriorities.Low}}
+        task: {id: v1(), title: "Shoes123", status:TaskStatuses.Completed,
+            todoListId:"todolistId2", description:"",addedDate: "",
+            deadline: "", order:0, startDate:"", priority:TaskPriorities.Low}}
 
     const endState = tasksReducer(initialState, action)
 
@@ -42,7 +43,6 @@ test.skip("new task should be added", () => {
 })
 
 test("task should be remove", () => {
-
 
     let action:deleteTaskAT = {type:"DELETE-TASK", todoListId: todoListId_2, taskId:"3"}
 
@@ -69,7 +69,6 @@ test("task title should be changed", () => {
 
 test("task checkbox status should be changed", () => {
 
-
     const model = {
         ...initialState,
         [todoListId_1]:[...initialState[todoListId_1].map(t => t.id === "3" ? {...t, status:TaskStatuses.New} : t)]
@@ -84,11 +83,9 @@ test("task checkbox status should be changed", () => {
 
 test('property with todolistId should be deleted', () => {
 
-
     const action = deleteTodolistAC(todoListId_2)
 
     const endState = tasksReducer(initialState, action)
-
 
     const keys = Object.keys(endState)
 
@@ -97,7 +94,6 @@ test('property with todolistId should be deleted', () => {
 })
 
 test('task entity status should changed', () => {
-
 
     const action:changeTaskEntityStatusAT = changeTaskEntityStatusAC(todoListId_2, "3", "loading")
 

@@ -26,9 +26,7 @@ export const Todolists: FC<todolistsType> = ({requestStatus}) => {
     const tasks = useAppSelector<tasksType>(state => state.tasks) // кастомный хук из store
     const isLoginIn = useAppSelector<boolean>(state => state.auth.isLoginIn)
 
-
     const dispatch = useAppDispatch(); // вставили кастомный хук из store
-
 
     const changeTodoListFilter = useCallback((filter: filterValueType, todoListId: string) => {
         dispatch(changeTodolistFilterAC(todoListId, filter))
@@ -51,7 +49,6 @@ export const Todolists: FC<todolistsType> = ({requestStatus}) => {
             dispatch(getTodoListTC())
         }
     }, [])
-
 
     if (!isLoginIn) {
         return <Navigate to={"/login"}/>

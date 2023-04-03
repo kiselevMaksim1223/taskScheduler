@@ -1,6 +1,5 @@
 import {instance, ResponseType} from "./instans-api";
 
-
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
@@ -37,7 +36,6 @@ export type UpdateTaskModelType = { //тип который ожидает по�
     startDate: string
     deadline: string
 }
-
 
 type getTasksType = {
     error:string

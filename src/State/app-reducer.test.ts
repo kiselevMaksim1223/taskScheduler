@@ -1,6 +1,5 @@
 import {AppInitialStateType, appReducer, appStatusType, setErrorAT, setStatusAT, setUserNameAT} from "./app-reducer";
 
-
 let initialState:AppInitialStateType
 
 beforeEach(() => {

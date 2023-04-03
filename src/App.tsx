@@ -8,13 +8,11 @@ import {filterValueType, todolistDomainType} from "./State/todolists-reducer";
 
 import {taskDomainType, tasksType} from "./State/tasks-reducer";
 
-
 export type taskItemType = {
     id: string
     title: string
     isDone: boolean
 }
-
 
 function App() {
 
@@ -79,8 +77,6 @@ function App() {
     const changeTaskTitle = (todoListId:string, taskId:string, title:string) => {
         setTasks({...tasks, [todoListId]:tasks[todoListId].map(t => t.id === taskId ? {...t, title} : t)})
     }
-
-
 
     return (
         <div className="App">
