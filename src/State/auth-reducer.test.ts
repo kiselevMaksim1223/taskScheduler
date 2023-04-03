@@ -1,10 +1,7 @@
 import {
+    authAction,
     authInitialStateType,
-    authReducer,
-    isInitializedAC,
-    isInitializedAT,
-    isLoginInAC,
-    isLoginInAT
+    authReducer
 } from "./auth-reducer";
 
 export const x = () => {}
@@ -15,7 +12,7 @@ test("isLoginIn status should change", () => {
         isInitialized:false
     }
 
-     const action:isLoginInAT = isLoginInAC(true)
+     const action = authAction.isLoginIn({isLoginIn:true})
 
     const endState = authReducer(initialState, action)
 
@@ -28,7 +25,7 @@ test("isInitialized status should change", () => {
         isInitialized:false
     }
 
-    const action:isInitializedAT = isInitializedAC(true)
+    const action = authAction.isInitialized({isInitialized:true})
 
     const endState = authReducer(initialState, action)
 
