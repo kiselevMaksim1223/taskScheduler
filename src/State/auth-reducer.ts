@@ -1,33 +1,28 @@
-import {Dispatch} from "redux";
 import {authApi, dataLoginType} from "../api/auth-api";
-import {setErrorAT, setStatusAC, setStatusAT, setUserNameAC, setUserNameAT} from "./app-reducer";
-import {handleServerAppError} from "../Utils/error-utils";
+import {handleServerAppError, handleServerNetworkError} from "../Utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../Store/Store";
+import {appActions} from "./app-reducer";
+
 
 export type authInitialStateType = {
     isLoginIn: boolean
-    isInitialized:boolean
+    isInitialized: boolean
 }
-
-// export type isLoginInAT = ReturnType<typeof isLoginInAC>
-// export type isInitializedAT = ReturnType<typeof isInitializedAC>
-
-type AuthActionType = setUserNameAT | setErrorAT | setStatusAT
 
 const initialState: authInitialStateType = {
     isLoginIn: false,
-    isInitialized:false
+    isInitialized: false
 }
 
 const slice = createSlice({
-    name:"auth",
+    name: "auth",
     initialState,
-    reducers:{
-        isLoginIn:(state, action:PayloadAction<{isLoginIn: boolean}>) => {
+    reducers: {
+        isLoginIn: (state, action: PayloadAction<{ isLoginIn: boolean }>) => {
             state.isLoginIn = action.payload.isLoginIn
         },
-        isInitialized:(state, action:PayloadAction<{isInitialized: boolean}>)=>{
+        isInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
             state.isInitialized = action.payload.isInitialized
         }
     }
@@ -36,34 +31,14 @@ const slice = createSlice({
 export const authReducer = slice.reducer
 export const authAction = slice.actions
 
-
-// export const _authReducer = (state = initialState, action: AuthActionType): authInitialStateType => {
-//
-//     switch (action.type) {
-//         case "SET-LOGIN-IN":
-//             return {...state, isLoginIn: action.isLoginIn}
-//         case "SET-INITIALIZE":
-//             return {...state, isInitialized: action.isInitialized}
-//         default:
-//             return state
-//     }
-// }
-
-// export const isLoginInAC = (isLoginIn: boolean) => {
-//     return {type: "SET-LOGIN-IN", isLoginIn} as const
-// }
-// export const isInitializedAC = (isInitialized: boolean) => {
-//     return {type: "SET-INITIALIZE", isInitialized} as const
-// }
-
-export const isLoginInTC = (data:dataLoginType):AppThunk => (dispatch) => {
-    dispatch(setStatusAC("loading"))
+export const isLoginInTC = (data: dataLoginType): AppThunk => (dispatch) => {
+    dispatch(appActions.setStatus({status:"loading"}))
     authApi.login(data)
         .then(res => {
-            if(res.data.resultCode === 0) {
-                dispatch(authAction.isLoginIn({isLoginIn:true}))
-                dispatch(setStatusAC("success"))
-                dispatch(setUserNameAC(res.data.data?.userId))
+            if (res.data.resultCode === 0) {
+                dispatch(authAction.isLoginIn({isLoginIn: true}))
+                dispatch(appActions.setStatus({status:"success"}))
+                dispatch(appActions.setUserName({userID:res.data.data?.userId}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -73,14 +48,14 @@ export const isLoginInTC = (data:dataLoginType):AppThunk => (dispatch) => {
         })
 }
 
-export const isInitializedTC = ():AppThunk => (dispatch) => {
-    dispatch(setStatusAC("loading"))
+export const isInitializedTC = (): AppThunk => (dispatch) => {
+    dispatch(appActions.setStatus({status:"loading"}))
     authApi.me()
         .then(res => {
-            if(res.data.resultCode === 0) {
-                dispatch(authAction.isLoginIn({isLoginIn:true}))
-                dispatch(setStatusAC("success"))
-                dispatch(setUserNameAC(res.data.data?.id))
+            if (res.data.resultCode === 0) {
+                dispatch(authAction.isLoginIn({isLoginIn: true}))
+                dispatch(appActions.setStatus({status:"success"}))
+                dispatch(appActions.setUserName({userID:res.data.data?.id}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -89,22 +64,22 @@ export const isInitializedTC = ():AppThunk => (dispatch) => {
             handleServerAppError(err, dispatch)
         })
         .finally(() => {
-            dispatch(authAction.isInitialized({isInitialized:true}))
+            dispatch(authAction.isInitialized({isInitialized: true}))
         })
 }
 
-export const logOutTC = ():AppThunk => (dispatch) => {
-    dispatch(setStatusAC("loading"))
-    authApi.logOut()
-        .then(res => {
-            if(res.data.resultCode === 0) {
-                dispatch(authAction.isLoginIn({isLoginIn:false}))
-                dispatch(setStatusAC("success"))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((err) => {
-            handleServerAppError(err, dispatch)
-        })
+export const logOutTC = (): AppThunk => async (dispatch) => {
+    dispatch(appActions.setStatus({status:"loading"}))
+    try {
+        let res = await authApi.logOut()
+        if (res.data.resultCode === 0) {
+            dispatch(authAction.isLoginIn({isLoginIn: false}))
+            dispatch(appActions.setStatus({status:"success"}))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (err: any) {
+        console.log(err)
+        handleServerNetworkError(err, dispatch)
+    }
 }

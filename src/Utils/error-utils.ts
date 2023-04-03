@@ -1,17 +1,17 @@
 import {Dispatch} from "redux";
-import {setErrorAC, setErrorAT, setStatusAC, setStatusAT} from "../State/app-reducer";
 import {ResponseType} from "../api/instans-api";
+import {appActions} from "../State/app-reducer";
 
-export const handleServerNetworkError = (err:{message:string}, dispatch:Dispatch<setErrorAT | setStatusAT>) => {
-    dispatch(setErrorAC(err.message ? err.message : "some error occurred"))
-    dispatch(setStatusAC("failed"))
+export const handleServerNetworkError = (err:{message:string}, dispatch:Dispatch) => {
+    dispatch(appActions.setError({error:err.message ? err.message : "some error occurred"}))
+    dispatch(appActions.setStatus({status:"failed"}))
 }
 
-export const handleServerAppError = <D>(data: ResponseType<D>,dispatch:Dispatch<setErrorAT | setStatusAT>) => {
+export const handleServerAppError = <D>(data: ResponseType<D>,dispatch:Dispatch) => {
     if (data.messages.length) {
-        dispatch(setErrorAC(data.messages[0]))
+        dispatch(appActions.setError({error:data.messages[0]}))
     } else {
-        dispatch(setErrorAC("some error occupied"))
+        dispatch(appActions.setError({error:"some error occupied"}))
     }
-    dispatch(setStatusAC("failed"))
+    dispatch(appActions.setStatus({status:"failed"}))
 }

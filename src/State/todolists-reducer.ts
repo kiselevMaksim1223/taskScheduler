@@ -1,8 +1,8 @@
 import {todolistAPI, todolistType} from "../api/todoist-api";
-import {Dispatch} from "redux";
-import {appStatusType, setErrorAT, setStatusAC, setStatusAT} from "./app-reducer";
+import {appActions, appStatusType} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../Utils/error-utils";
 import {changeTaskEntityStatusAT} from "./tasks-reducer";
+import {AppThunk} from "../Store/Store";
 
 export type addTodolistAT = ReturnType<typeof addTodolistAC>
 export type deleteTodolistAT = ReturnType<typeof deleteTodolistAC>
@@ -18,8 +18,6 @@ export type TodoListActionType = addTodolistAT
     | changeTodolistTitleAT
     | changeTodolistFilterAT
     | GetTodolistAT
-    | setStatusAT
-    | setErrorAT
     | changeTodolistEntityStatusAT
     | changeTaskEntityStatusAT
 
@@ -96,25 +94,25 @@ export const changeTodolistEntityStatusAC = (todoListId: string, todolistEntityS
 }
 
 //===========================THUNK=========================================================
-export const getTodoListTC = () => (dispatch:Dispatch<TodoListActionType>)  => {
-    dispatch(setStatusAC("loading"))
+export const getTodoListTC = ():AppThunk => (dispatch)  => {
+    dispatch(appActions.setStatus({status:"loading"}))
     todolistAPI.getTodolists()
         .then(res => {
             dispatch(getTodoListAC(res.data))
-            dispatch(setStatusAC("success"))
+            dispatch(appActions.setStatus({status:"success"}))
         })
         .catch(err => {
             handleServerNetworkError(err, dispatch)
         })
 }
 
-export const addTodoListTC = (todoListTitle:string) => (dispatch:Dispatch<TodoListActionType>) => {
-    dispatch(setStatusAC("loading"))
+export const addTodoListTC = (todoListTitle:string):AppThunk => (dispatch) => {
+    dispatch(appActions.setStatus({status:"loading"}))
     todolistAPI.createTodolist(todoListTitle)
         .then((res) => {
             if(res.data.resultCode === 0) {
                 dispatch(addTodolistAC(res.data.data.item))
-                dispatch(setStatusAC("success"))
+                dispatch(appActions.setStatus({status:"success"}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -124,14 +122,14 @@ export const addTodoListTC = (todoListTitle:string) => (dispatch:Dispatch<TodoLi
         })
 }
 
-export const deleteTodoListTC = (todoListId:string) => (dispatch:Dispatch<TodoListActionType>) => {
-    dispatch(setStatusAC("loading"))
+export const deleteTodoListTC = (todoListId:string):AppThunk => (dispatch) => {
+    dispatch(appActions.setStatus({status:"loading"}))
     dispatch(changeTodolistEntityStatusAC(todoListId, "loading"))
     todolistAPI.deleteTodolist(todoListId)
         .then((res) => {
             if(res.data.resultCode === 0) {
                 dispatch(deleteTodolistAC(todoListId))
-                dispatch(setStatusAC("success"))
+                dispatch(appActions.setStatus({status:"success"}))
                 dispatch(changeTodolistEntityStatusAC(todoListId, "success"))
             } else {
                 handleServerAppError(res.data, dispatch)
@@ -142,15 +140,15 @@ export const deleteTodoListTC = (todoListId:string) => (dispatch:Dispatch<TodoLi
         })
 }
 
-export const changeTodoListTitleTC = (todoListId:string, title:string) => (dispatch:Dispatch<TodoListActionType>) => {
+export const changeTodoListTitleTC = (todoListId:string, title:string):AppThunk => (dispatch) => {
     dispatch(changeTodolistEntityStatusAC(todoListId, "loading"))
-    dispatch(setStatusAC("loading"))
+    dispatch(appActions.setStatus({status:"loading"}))
     todolistAPI.updateTodolist(todoListId, title)
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(changeTodolistTitleAC(todoListId, title))
                 dispatch(changeTodolistEntityStatusAC(todoListId, "success"))
-                dispatch(setStatusAC("success"))
+                dispatch(appActions.setStatus({status:"success"}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }

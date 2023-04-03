@@ -1,4 +1,4 @@
-import {AppInitialStateType, appReducer, appStatusType, setErrorAT, setStatusAT, setUserNameAT} from "./app-reducer";
+import {AppInitialStateType, appReducer, appStatusType} from "./app-reducer";
 
 let initialState:AppInitialStateType
 
@@ -13,7 +13,7 @@ beforeEach(() => {
 test("error message should change", () => {
 
     const newError = "errorrrrr"
-    const action:setErrorAT = {type:"SET-ERROR", error:newError}
+    const action = {type:"SET-ERROR", error:newError}
 
     const newState = appReducer(initialState, action)
 
@@ -24,7 +24,7 @@ test("app status should change", () => {
 
     const newStatus:appStatusType = "success"
 
-    const action:setStatusAT = {type:"SET-STATUS", status:newStatus}
+    const action = {type:"SET-STATUS", status:newStatus}
 
     const newState = appReducer(initialState, action)
 
@@ -35,7 +35,7 @@ test("user name should change", () => {
 
     const userID:number = 1234
 
-    const action:setUserNameAT = {type:"SET-USER-ID", userID}
+    const action = {type:"SET-USER-ID", userID}
 
     const newState = appReducer(initialState, action)
 
