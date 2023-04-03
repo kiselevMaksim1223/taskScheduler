@@ -5,11 +5,10 @@ import {TodoList} from "./ToDoList/TodoList";
 import {useAppDispatch, useAppSelector} from "../../Store/Store";
 import {
     addTodoListTC,
-    changeTodolistFilterAC,
     changeTodoListTitleTC,
     deleteTodoListTC,
     filterValueType,
-    getTodoListTC,
+    getTodoListTC, todolistActions,
     todolistDomainType
 } from "../../State/todolists-reducer";
 import {appStatusType} from "../../State/app-reducer";
@@ -29,7 +28,7 @@ export const Todolists: FC<todolistsType> = ({requestStatus}) => {
     const dispatch = useAppDispatch(); // вставили кастомный хук из store
 
     const changeTodoListFilter = useCallback((filter: filterValueType, todoListId: string) => {
-        dispatch(changeTodolistFilterAC(todoListId, filter))
+        dispatch(todolistActions.changeTodolistFilter({todoListId:todoListId, filter:filter}))
     }, [dispatch])
 
     const addTodolist = useCallback((todoListTitle: string) => {

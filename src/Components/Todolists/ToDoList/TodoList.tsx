@@ -4,7 +4,7 @@ import {AddItem} from "../../AddTodolist/AddItem";
 import {Task} from "../../Task/Task";
 import {createTaskTC, getTasksTC, taskDomainType} from "../../../State/tasks-reducer";
 import {TaskStatuses} from "../../../api/task-api";
-import {deleteTodolistAC, filterValueType} from "../../../State/todolists-reducer";
+import {filterValueType, todolistActions} from "../../../State/todolists-reducer";
 import {useAppDispatch} from "../../../Store/Store";
 import {Delete} from "@mui/icons-material";
 import {ButtonGroup, CircularProgress, IconButton} from "@mui/material";
@@ -48,7 +48,7 @@ export const TodoList = React.memo((props: propsType) => {
         }
 
         return ()=>{
-            dispatch(deleteTodolistAC(props.id))  //cleanup function for deleting all then logout
+            dispatch(todolistActions.deleteTodolist({todoListId:props.id}))  //cleanup function for deleting all then logout
         }
     }, [])
 
