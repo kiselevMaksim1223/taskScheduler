@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import {useAppDispatch, useAppSelector} from "../../Store/Store";
-import {logOutTC} from "../../State/auth-reducer";
+import {logOutTC} from "../../State/auth/auth-reducer";
 import {Logout} from "@mui/icons-material";
 
 export const HeaderMui = () => {

@@ -4,7 +4,7 @@ import {Task} from "../Components/Task/Task";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator/ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {AppRootState} from "../Store/Store";
-import {taskDomainType} from "../State/tasks-reducer";
+import {taskDomainType} from "../State/tasks/tasks-reducer";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

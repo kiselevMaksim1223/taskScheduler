@@ -7,7 +7,7 @@ import {AppRootState} from "../Store/Store";
 import {TodoList} from "../Components/Todolists/ToDoList/TodoList";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../api/task-api";
-import {taskDomainType} from "../State/tasks-reducer";
+import {taskDomainType} from "../State/tasks/tasks-reducer";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -90,9 +90,9 @@ TodoListExample.args = {
             taskEntityStatus: "idle"
         },
     ],
-    changeTodoListStatus: action("todolist status changed"),
+    changeTodoListStatus: action("todolists status changed"),
     changeTodoListFilter: action("filter changed"),
-    deleteTodolist: action("todolist deleted")
+    deleteTodolist: action("todolists deleted")
 }
 
 

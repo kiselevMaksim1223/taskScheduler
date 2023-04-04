@@ -9,11 +9,12 @@ import {
     deleteTodoListTC,
     filterValueType,
     getTodoListTC, todolistActions,
-    todolistDomainType
-} from "../../State/todolists-reducer";
-import {appStatusType} from "../../State/app-reducer";
-import {tasksType} from "../../State/tasks-reducer";
+} from "../../State/todolists/todolists-reducer";
+import {appStatusType} from "../../State/app/app-reducer";
 import {Navigate} from "react-router-dom";
+import {selectIsLoginIn} from "../../State/auth/auth-selectors";
+import {selectTodolists} from "../../State/todolists/todolist-selector";
+import {selectTasks} from "../../State/tasks/tasks-selector";
 
 type todolistsType = {
     requestStatus: appStatusType
@@ -21,9 +22,10 @@ type todolistsType = {
 
 export const Todolists: FC<todolistsType> = ({requestStatus}) => {
     console.log("todolists")
-    const todoLists = useAppSelector<todolistDomainType[]>(state => state.todoLists)
-    const tasks = useAppSelector<tasksType>(state => state.tasks) // кастомный хук из store
-    const isLoginIn = useAppSelector<boolean>(state => state.auth.isLoginIn)
+
+    const todoLists = useAppSelector(selectTodolists)
+    const tasks = useAppSelector(selectTasks) // кастомный хук из store
+    const isLoginIn = useAppSelector(selectIsLoginIn)
 
     const dispatch = useAppDispatch(); // вставили кастомный хук из store
 

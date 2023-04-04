@@ -3,8 +3,8 @@ import {
     todolistDomainType,
     todolistsReducer, filterValueType, todolistActions
 } from "./todolists-reducer";
-import {todolistType} from "../api/todoist-api";
-import {appStatusType} from "./app-reducer";
+import {todolistType} from "../../api/todoist-api";
+import {appStatusType} from "../app/app-reducer";
 
 let todoListId_1 = v1()
 let todoListId_2 = v1()
@@ -17,7 +17,7 @@ beforeEach(() => {
     ]
 })
 
-test("new todolist should be added", () => {
+test("new todolists should be added", () => {
 
     const newTitle = "qwerty"
     const todoListState: todolistType = {
@@ -33,7 +33,7 @@ test("new todolist should be added", () => {
     expect(endState[0].title).toBe(newTitle)
 })
 
-test("todolist should be remove", () => {
+test("todolists should be remove", () => {
 
     const endState = todolistsReducer(initialState, todolistActions.deleteTodolist({todoListId:todoListId_2}))
 
@@ -41,7 +41,7 @@ test("todolist should be remove", () => {
     expect(endState[0].title).toBe("what to learn")
 })
 
-test("todolist title should be changed", () => {
+test("todolists title should be changed", () => {
     const newTitle = "new title"
 
 
@@ -52,7 +52,7 @@ test("todolist title should be changed", () => {
     expect(endState[1].title).toBe(newTitle)
 })
 
-test("todolist filter should be changed", () => {
+test("todolists filter should be changed", () => {
 
     const newFilter:filterValueType = "active"
 
@@ -63,7 +63,7 @@ test("todolist filter should be changed", () => {
     expect(endState[1].filter).toBe(newFilter)
 })
 
-test("todolist entity status should be changed", () => {
+test("todolists entity status should be changed", () => {
 
     const newEntityStatus:appStatusType = "loading"
 

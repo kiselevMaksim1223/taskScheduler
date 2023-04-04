@@ -4,9 +4,9 @@ import {TodoList} from "./Components/Todolists/ToDoList/TodoList";
 import {v1} from "uuid";
 import {AddItem} from "./Components/AddTodolist/AddItem";
 import {TaskPriorities, TaskStatuses} from "./api/task-api";
-import {filterValueType, todolistDomainType} from "./State/todolists-reducer";
+import {filterValueType, todolistDomainType} from "./State/todolists/todolists-reducer";
 
-import {taskDomainType, tasksType} from "./State/tasks-reducer";
+import {taskDomainType, tasksType} from "./State/tasks/tasks-reducer";
 
 export type taskItemType = {
     id: string

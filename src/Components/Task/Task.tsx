@@ -1,6 +1,6 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {deleteTaskTC, taskDomainType, updateTaskTC} from "../../State/tasks-reducer";
+import {deleteTaskTC, taskDomainType, updateTaskTC} from "../../State/tasks/tasks-reducer";
 import {TaskStatuses} from "../../api/task-api";
 import {useAppDispatch} from "../../Store/Store";
 import {Delete} from "@mui/icons-material";

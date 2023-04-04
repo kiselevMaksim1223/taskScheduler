@@ -3,8 +3,8 @@ import {
     tasksActions,
     tasksReducer, tasksType,
 } from "./tasks-reducer";
-import {TaskPriorities, TaskStatuses} from "../api/task-api";
-import {todolistActions} from "./todolists-reducer";
+import {TaskPriorities, TaskStatuses} from "../../api/task-api";
+import {todolistActions} from "../todolists/todolists-reducer";
 
 let initialState: tasksType
 let todoListId_1 = v1()

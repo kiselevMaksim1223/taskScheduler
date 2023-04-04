@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {ResponseType} from "../api/instans-api";
-import {appActions} from "../State/app-reducer";
+import {appActions} from "../State/app/app-reducer";
 
 export const handleServerNetworkError = (err:{message:string}, dispatch:Dispatch) => {
     dispatch(appActions.setError({error:err.message ? err.message : "some error occurred"}))

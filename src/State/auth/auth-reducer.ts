@@ -1,8 +1,8 @@
-import {authApi, dataLoginType} from "../api/auth-api";
-import {handleServerAppError, handleServerNetworkError} from "../Utils/error-utils";
+import {authApi, dataLoginType} from "../../api/auth-api";
+import {handleServerAppError, handleServerNetworkError} from "../../Utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppThunk} from "../Store/Store";
-import {appActions} from "./app-reducer";
+import {AppThunk} from "../../Store/Store";
+import {appActions} from "../app/app-reducer";
 
 
 export type authInitialStateType = {

@@ -2,14 +2,14 @@ import React, {useCallback, useEffect} from "react";
 import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import {AddItem} from "../../AddTodolist/AddItem";
 import {Task} from "../../Task/Task";
-import {createTaskTC, getTasksTC, taskDomainType} from "../../../State/tasks-reducer";
+import {createTaskTC, getTasksTC, taskDomainType} from "../../../State/tasks/tasks-reducer";
 import {TaskStatuses} from "../../../api/task-api";
-import {filterValueType, todolistActions} from "../../../State/todolists-reducer";
+import {filterValueType, todolistActions} from "../../../State/todolists/todolists-reducer";
 import {useAppDispatch} from "../../../Store/Store";
 import {Delete} from "@mui/icons-material";
 import {ButtonGroup, CircularProgress, IconButton} from "@mui/material";
 import Button from "@mui/material/Button";
-import {appStatusType} from "../../../State/app-reducer";
+import {appStatusType} from "../../../State/app/app-reducer";
 
 type propsType = {
     id: string

@@ -4,16 +4,17 @@ import {useAppDispatch, useAppSelector} from "./Store/Store";
 import {Box, CircularProgress, Container, LinearProgress} from "@mui/material";
 import {HeaderMui} from "./Components/Header/HeaderMUI";
 import {ErrorSnackbar} from "./Components/ErrorSnackBar/ErrorSnackBar";
-import {appStatusType} from "./State/app-reducer";
 import {Todolists} from "./Components/Todolists/Todolists";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./Components/Login/Login";
-import {isInitializedTC} from "./State/auth-reducer";
+import {isInitializedTC} from "./State/auth/auth-reducer";
+import {selectIsInitialized} from "./State/auth/auth-selectors";
+import {selectAppStatus} from "./State/app/app-selectors";
 
 export const AppWithRedux = React.memo(() => {
     console.log("app")
-    const requestStatus = useAppSelector<appStatusType>(state => state.app.status)
-    const isInitialized = useAppSelector<boolean>(state => state.auth.isInitialized)
+    const requestStatus = useAppSelector(selectAppStatus)
+    const isInitialized = useAppSelector(selectIsInitialized)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -27,7 +28,6 @@ export const AppWithRedux = React.memo(() => {
                 <CircularProgress/>
             </div>
         )
-
     }
     return (
         <div className="App">
