@@ -22,7 +22,7 @@ export default {
 
 const TaskCopy = () => {
   const task = useSelector<AppRootState, taskDomainType>(state => state.tasks["todolistId1"][0])
-  return <Task task={task} todoListId={"todolistId1"} disabled={false}/>
+  return <Task task={task} todolistId={"todolistId1"} disabled={false}/>
 }
 
 

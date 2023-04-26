@@ -3,15 +3,17 @@ import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, G
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {Navigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../Store/Store";
-import {isLoginInTC} from "../../State/auth/auth-reducer";
 import {selectIsLoginIn} from "../../State/auth/auth-selectors";
+import {authThunks} from "../../State/auth/auth-reducer";
+import {useAppSelector} from "../../Utils/hooks/useAppSelector";
+import {useActions} from "../../Utils/hooks/useActions";
 
 export const Login = () => {
     console.log("login")
 
     const isLoginIn = useAppSelector(selectIsLoginIn)
-    const dispatch = useAppDispatch()
+
+    const {LoginIn} = useActions(authThunks)
 
     const formik = useFormik({
         initialValues: {
@@ -24,7 +26,7 @@ export const Login = () => {
             password: Yup.string().min(4, "Password should be at least 4 characters").required("Required field"),
         }),
         onSubmit: values => {
-            dispatch(isLoginInTC(values))
+            LoginIn({data:values})
         },
     });
 

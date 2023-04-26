@@ -13,18 +13,19 @@ import {
     Typography
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {useAppDispatch, useAppSelector} from "../../Store/Store";
-import {logOutTC} from "../../State/auth/auth-reducer";
 import {Logout} from "@mui/icons-material";
+import {authThunks} from "../../State/auth/auth-reducer";
+import {useAppSelector} from "../../Utils/hooks/useAppSelector";
+import {useActions} from "../../Utils/hooks/useActions";
 
 export const HeaderMui = () => {
 
     const isLoginIn = useAppSelector<boolean>(state => state.auth.isLoginIn)
     const userID = useAppSelector<number | null>(state => state.app.userID)
-    const dispatch = useAppDispatch()
+    const {logOut} = useActions(authThunks)
 
     const onClickLogOutHandler = () => {
-        dispatch(logOutTC())
+        logOut()
     }
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

@@ -1,24 +1,24 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {useAppDispatch, useAppSelector} from "./Store/Store";
 import {Box, CircularProgress, Container, LinearProgress} from "@mui/material";
 import {HeaderMui} from "./Components/Header/HeaderMUI";
 import {ErrorSnackbar} from "./Components/ErrorSnackBar/ErrorSnackBar";
 import {Todolists} from "./Components/Todolists/Todolists";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./Components/Login/Login";
-import {isInitializedTC} from "./State/auth/auth-reducer";
-import {selectIsInitialized} from "./State/auth/auth-selectors";
-import {selectAppStatus} from "./State/app/app-selectors";
+import {selectAppStatus, selectIsInitialized} from "./State/app/app-selectors";
+import {authThunks} from "./State/auth/auth-reducer";
+import {useAppSelector} from "./Utils/hooks/useAppSelector";
+import {useActions} from "./Utils/hooks/useActions";
 
 export const AppWithRedux = React.memo(() => {
     console.log("app")
     const requestStatus = useAppSelector(selectAppStatus)
     const isInitialized = useAppSelector(selectIsInitialized)
-    const dispatch = useAppDispatch()
+    const {isInitialized:isInitializedThunk} = useActions(authThunks) //hook for make dispatch(authThunks.isInitialized()) in isInitialized()
 
     useEffect(() => {
-        dispatch(isInitializedTC())
+        isInitializedThunk()
         console.log("me auth")
     }, [])
 

@@ -6,12 +6,14 @@ export type AppInitialStateType = {
     status: appStatusType
     error: string | null
     userID:number | null
+    isInitialized: boolean
 }
 
 const initialState: AppInitialStateType = {
     status: "idle",
     error: null,
-    userID: null
+    userID: null,
+    isInitialized: false
 }
 
 export const slice = createSlice({
@@ -26,6 +28,9 @@ export const slice = createSlice({
         },
         setUserName:(state, action:PayloadAction<{userID:number}>) => {
             state.userID = action.payload.userID
+        },
+        setAppInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
+            state.isInitialized = action.payload.isInitialized
         },
     }
 })

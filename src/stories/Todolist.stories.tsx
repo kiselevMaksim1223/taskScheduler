@@ -1,17 +1,16 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import {action} from "@storybook/addon-actions";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator/ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {AppRootState} from "../Store/Store";
-import {TodoList} from "../Components/Todolists/ToDoList/TodoList";
+import {TodoList} from "../Components/Todolists/Todolist/TodoList";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../api/task-api";
 import {taskDomainType} from "../State/tasks/tasks-reducer";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'TODOLIST/TodoList',
+    title: 'TODOLIST/Todolist',
     component: TodoList,
     decorators: [ReduxStoreProviderDecorator]
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
@@ -34,8 +33,8 @@ export const TodoListExample = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 
 TodoListExample.args = {
-    title: "123",
-    filter: "all",
+    // title: "123",
+    // filter: "all",
     tasks: [
         {
             id: v1(),
@@ -90,9 +89,10 @@ TodoListExample.args = {
             taskEntityStatus: "idle"
         },
     ],
-    changeTodoListStatus: action("todolists status changed"),
-    changeTodoListFilter: action("filter changed"),
-    deleteTodolist: action("todolists deleted")
+    todolist: {id:'1', filter:"all", order:0, title:'todo', todolistEntityStatus:"idle", addedDate:'12.12.12'}
+    // changeTodoListStatus: action("todolists status changed"),
+    // changeTodoListFilter: action("filter changed"),
+    // deleteTodolist: action("todolists deleted")
 }
 
 

@@ -1,45 +1,49 @@
-import React, {ChangeEvent, memo, useCallback} from 'react';
+import React, {ChangeEvent, memo} from 'react';
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {deleteTaskTC, taskDomainType, updateTaskTC} from "../../State/tasks/tasks-reducer";
+import {taskDomainType, tasksThunks} from "../../State/tasks/tasks-reducer";
 import {TaskStatuses} from "../../api/task-api";
-import {useAppDispatch} from "../../Store/Store";
 import {Delete} from "@mui/icons-material";
 import {Box, Checkbox, CircularProgress, IconButton} from "@mui/material";
+import {useActions} from "../../Utils/hooks/useActions";
 
 type taskPropsType = {
-    task:taskDomainType
-    todoListId:string
-    disabled:boolean
+    task: taskDomainType
+    todolistId: string
+    disabled: boolean
 }
 
-export const Task:React.FC<taskPropsType> = memo(({task, todoListId, disabled}) => {
+export const Task: React.FC<taskPropsType> = memo(({task, todolistId, disabled}) => {
 
-    const dispatch = useAppDispatch()
+    const {deleteTask, updateTask} = useActions(tasksThunks)
 
-    const removeTask = useCallback(() => {
-        dispatch(deleteTaskTC(todoListId, task.id))
+    const removeTask = () => {
+        deleteTask({todolistId, taskId: task.id})
         console.log(task.taskEntityStatus)
-    }, [dispatch])
+    }
 
-    const changeTaskTitle = useCallback((title:string) => {
-        dispatch(updateTaskTC(todoListId, task.id, task, {title:title}))
-    }, [dispatch])
-
-    const changeCheckBox = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(updateTaskTC(todoListId, task.id, task, {
-            status:e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-        }))
-        console.log(task.status)
-    },[dispatch])
+    const changeTaskTitle = (title: string) => {
+        updateTask({
+            todolistId, taskId: task.id, model: task,
+            domainModel: {title: title}
+        })
+    }
+    const changeCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+        updateTask({
+            todolistId,
+            taskId: task.id,
+            model: task,
+            domainModel: {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}
+        })
+    }
 
     return (
-        <div style={{display:"flex", justifyContent:"space-between",alignItems:"center"}}>
-            <Box sx={{display:"flex", gap:"5px", alignItems:"center"}}>
+        <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+            <Box sx={{display: "flex", gap: "5px", alignItems: "center"}}>
                 <Checkbox checked={task.status === TaskStatuses.Completed}
-                         onChange={changeCheckBox}
-                         size={"small"}
-                         disabled={disabled || task.taskEntityStatus === "loading"}
-            />
+                          onChange={changeCheckBox}
+                          size={"small"}
+                          disabled={disabled || task.taskEntityStatus === "loading"}
+                />
                 <EditableSpan title={task.title}
                               callBack={(title) => changeTaskTitle(title)}
                               disabled={disabled || task.taskEntityStatus === "loading"}
@@ -47,17 +51,17 @@ export const Task:React.FC<taskPropsType> = memo(({task, todoListId, disabled}) 
                 />
             </Box>
 
-            <Box sx={{width:"40px", height:"40px",display:"flex", justifyContent:"center",alignItems:"center"}}>
+            <Box sx={{width: "40px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center"}}>
                 {task.taskEntityStatus === "loading"
-                ? <CircularProgress size={20}/>
-                : <IconButton sx={{":hover": {color: "#11cb5f"}}}
-                              onClick={removeTask}
-                    disabled={disabled}
-                >
-                    <Delete/>
-                </IconButton>}
+                    ? <CircularProgress size={20}/>
+                    : <IconButton sx={{":hover": {color: "#11cb5f"}}}
+                                  onClick={removeTask}
+                                  disabled={disabled}
+                    >
+                        <Delete/>
+                    </IconButton>}
             </Box>
-        </div>
+        </Box>
     );
 })
 
